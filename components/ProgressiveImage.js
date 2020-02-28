@@ -44,7 +44,7 @@ class ProgressiveImage extends React.Component {
           style={[
             style,
             {
-              backgroundColor: thumbnailColor || "#90a4ae"
+              backgroundColor: thumbnailColor || "#d4d7dd"
             },
             { opacity: this.thumbnailAnimated }
           ]}

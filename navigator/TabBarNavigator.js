@@ -9,10 +9,12 @@ import { Ionicons } from "@expo/vector-icons";
 import Society from "../Screens/Society";
 import societyScreen from "../Screens/societyScreen";
 import StaffScreen from "../Screens/StaffScreen";
+import { Icon } from "react-native-elements";
+import Staff from "../Screens/Staff";
 
-const activeColor = "#5f85db";
+const activeColor = "#1089FF";
 const inactiveColor = "#777E8B";
-const BackColor = "#17223B";
+const BackColor = "#f5f5f5";
 const fontText = "mont-regular";
 
 const HomeStack = createStackNavigator(
@@ -37,10 +39,11 @@ HomeStack.navigationOptions = ({ navigation }) => {
     tabBarVisible,
     tabBarLabel: "Home",
     tabBarIcon: ({ focused }) => (
-      <Ionicons
-        name="md-home"
+      <Icon
+        name="home"
+        type="feather"
         color={focused ? activeColor : inactiveColor}
-        size={28}
+        size={23}
         style={{ backgroundColor: "transparent" }}
       />
     ),
@@ -53,7 +56,7 @@ HomeStack.navigationOptions = ({ navigation }) => {
       },
       style: {
         height: Platform.OS === "ios" ? 50 : 55,
-        paddingTop: Platform.OS === "ios" ? 5 : 10,
+        paddingTop: Platform.OS === "ios" ? 10 : 8,
         backgroundColor: BackColor
       }
     }
@@ -79,7 +82,7 @@ ExploreStack.navigationOptions = ({ navigation }) => {
       <Ionicons
         name="ios-search"
         color={focused ? activeColor : inactiveColor}
-        size={28}
+        size={23}
         style={{ backgroundColor: "transparent" }}
       />
     ),
@@ -92,7 +95,7 @@ ExploreStack.navigationOptions = ({ navigation }) => {
       },
       style: {
         height: Platform.OS === "ios" ? 50 : 55,
-        paddingTop: Platform.OS === "ios" ? 5 : 10,
+        paddingTop: Platform.OS === "ios" ? 10 : 8,
         backgroundColor: BackColor
       }
     }
@@ -100,25 +103,27 @@ ExploreStack.navigationOptions = ({ navigation }) => {
 };
 
 const InformationStack = createStackNavigator({
-  StaffScreen
+  StaffScreen,
+  Staff
 });
 
 InformationStack.navigationOptions = ({ navigation }) => {
   var tabBarVisible = true;
-  //   const routeName = navigation.state.routes[navigation.state.index].routeName;
+  const routeName = navigation.state.routes[navigation.state.index].routeName;
 
-  //   if (routeName == "News" || routeName == "" || routeName == "") {
-  //     tabBarVisible = false;
-  //  }
+  if (routeName == "Staff" || routeName == "" || routeName == "") {
+    tabBarVisible = false;
+  }
 
   return {
     tabBarVisible,
     tabBarLabel: "Staff",
     tabBarIcon: ({ focused }) => (
-      <Ionicons
-        name="ios-list-box"
+      <Icon
+        name="users"
+        type="font-awesome"
         color={focused ? activeColor : inactiveColor}
-        size={26}
+        size={23}
         style={{ backgroundColor: "transparent" }}
       />
     ),
@@ -131,7 +136,7 @@ InformationStack.navigationOptions = ({ navigation }) => {
       },
       style: {
         height: Platform.OS === "ios" ? 50 : 55,
-        paddingTop: Platform.OS === "ios" ? 5 : 10,
+        paddingTop: Platform.OS === "ios" ? 10 : 8,
         backgroundColor: BackColor
       }
     }

@@ -28,7 +28,7 @@ const Card = props => (
         />
       </TouchableOpacity>
     </Cover>
-    <Content>
+    {/* <Content>
       <ProgressiveImage
         source={props.logo}
         style={{ width: 44, height: 44, borderRadius: 22, marginTop: 11 }}
@@ -54,7 +54,7 @@ const Card = props => (
           </Text>
         </Text>
       </Wrapper>
-    </Content>
+    </Content> */}
   </Container>
 );
 
@@ -84,7 +84,7 @@ const Wrapper = styled.View`
 `;
 
 const Container = styled.View`
-  background: #263859;
+  background: #d4d7dd;
   width: 92%;
   height: 400px;
   border-radius: 9px;
@@ -93,9 +93,11 @@ const Container = styled.View`
 
 const Cover = styled.View`
   width: 100%;
-  height: 340px;
+  height: 400px;
   border-top-left-radius: 9px;
   border-top-right-radius: 9px;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
   overflow: hidden;
 `;
 

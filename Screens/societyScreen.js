@@ -1,22 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import {
-  Text,
   StyleSheet,
+  ScrollView,
+  Text,
   View,
-  Platform,
   Dimensions,
-  Image,
   TouchableOpacity,
-  SafeAreaView,
-  ScrollView
+  Platform,
+  StatusBar,
+  Image
 } from "react-native";
-const { height, width } = Dimensions.get("window");
-import { Ionicons } from "@expo/vector-icons";
-import { Button } from "../components/Button";
-import { SendMessage } from "../components/SendMessage";
 import HTMLView from "react-native-htmlview";
-const normalText = "poppins-Light";
-const boldText = "poppins-Bold";
+import ProgressiveImage from "../components/ProgressiveImage";
+const w = Dimensions.get("window");
+import { Ionicons } from "@expo/vector-icons";
 import Photos from "../components/Photos";
 
 class societyScreen extends React.Component {
@@ -27,49 +24,46 @@ class societyScreen extends React.Component {
   render() {
     const { navigation } = this.props;
     const screenSociety = navigation.getParam("screenSociety");
-    // const modal = [];
-
-    // const renderButtons = links => {
-    //   return links.map((link, i) => (
-    //     <Button key={i} onPress={() => modal[i].openModal()} name={link} />
-    //   ));
-    // };
     return (
       <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View>
-            <Image
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ backgroundColor: "#fff" }}
+        >
+          <StatusBar hidden />
+          <View style={styles.cover}>
+            <ProgressiveImage
+              // thumbnailSource={{
+              //   uri: `https://media.graphcms.com/${screenSociety.blurImage.handle}`
+              // }}
               source={{
                 uri: `https://media.graphcms.com/${screenSociety.imageOne.handle}`
               }}
               style={styles.image}
-              alt={screenSociety.title}
             />
+            <Text style={styles.tag}>{screenSociety.tags}</Text>
             <Text style={styles.title}>{screenSociety.title}</Text>
           </View>
-          <View
-            style={{
-              borderBottomWidth: 0.2,
-              borderTopWidth: 0.2,
-              borderColor: "#e6f1ff"
-            }}
-          >
-            <View style={styles.avatarView}>
-              <Text style={styles.subtitle}>
-                Created by {""}
-                <Text style={{ color: "#74B9FF", fontSize: 16 }}>
-                  {screenSociety.name}
-                </Text>
-              </Text>
-              <Image
-                style={styles.avatar}
-                source={{
-                  uri: `https://media.graphcms.com/${screenSociety.imageOne.handle}`
+          <View style={styles.avatarView}>
+            <Text style={styles.subtitle}>
+              Created by {""}
+              <Text
+                style={{
+                  color: "#74B9FF",
+                  fontSize: 16,
+                  fontFamily: boldText
                 }}
-              />
-            </View>
+              >
+                {screenSociety.name}
+              </Text>
+            </Text>
+            <Image
+              style={styles.avatar}
+              source={{
+                uri: `https://media.graphcms.com/${screenSociety.imageOne.handle}`
+              }}
+            />
           </View>
-
           <View style={styles.webView}>
             <HTMLView
               stylesheet={htmlStyles}
@@ -77,8 +71,25 @@ class societyScreen extends React.Component {
               addLineBreaks={false}
             />
           </View>
-          <Text style={styles.title}>Photos</Text>
-
+          <TouchableOpacity
+            style={{ position: "absolute", top: 45, right: 15 }}
+            onPress={() => {
+              this.props.navigation.goBack();
+            }}
+          >
+            <View style={styles.closeView}>
+              <Ionicons
+                name={
+                  Platform.OS === "ios" ? "ios-close" : "ios-arrow-round-back"
+                }
+                color="#000"
+                size={Platform.OS === "ios" ? 34 : 36}
+                style={{
+                  marginTop: Platform.OS === "ios" ? -2 : 0
+                }}
+              />
+            </View>
+          </TouchableOpacity>
           <ScrollView
             style={{
               flexDirection: "row"
@@ -87,7 +98,7 @@ class societyScreen extends React.Component {
             indicatorStyle={"white"}
             showsHorizontalScrollIndicator={false}
           >
-            <View style={styles.photo}>
+            <View style={styles.photos}>
               <TouchableOpacity>
                 <Photos
                   image={{
@@ -122,71 +133,52 @@ class societyScreen extends React.Component {
               />
             </View>
           </ScrollView>
-          {/* 
-          {renderButtons(["send us a message"])}
-
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "blue"
-            }}
-          >
-            <SendMessage
-              ref={el => {
-                modal[0] = el;
-              }}
-            />
-          </View> */}
         </ScrollView>
-
-        <TouchableOpacity
-          style={{ position: "absolute", top: 45, left: 15 }}
-          onPress={() => {
-            this.props.navigation.goBack();
-          }}
-        >
-          <View style={styles.closeView}>
-            <Ionicons
-              name={
-                Platform.OS === "ios"
-                  ? "ios-arrow-round-back"
-                  : "ios-arrow-round-back"
-              }
-              color="#000"
-              size={Platform.OS === "ios" ? 34 : 36}
-              style={{
-                marginTop: Platform.OS === "ios" ? -2 : -2,
-                marginLeft: 5
-              }}
-            />
-          </View>
-        </TouchableOpacity>
       </View>
     );
   }
 }
+
 export default societyScreen;
+const boldText = "mont-bold";
+const normalText = "pt-serif";
 
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 20,
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  },
+  cover: {
+    height: 525,
+    width: "100%",
+    backgroundColor: "#93b5b3"
+  },
+  tag: {
+    fontSize: 14,
     fontWeight: "400",
     padding: 10,
-    fontFamily: boldText,
-    color: "#e6f1ff"
-  },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: "400",
-    padding: 16,
     fontFamily: normalText,
-    color: "#fff"
+    color: "#efe",
+    width: 150,
+    position: "absolute",
+    top: 38,
+    left: 10
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "500",
+    padding: 10,
+    fontFamily: boldText,
+    color: "#000",
+    width: 270,
+    position: "absolute",
+    top: 62,
+    left: 10
   },
   image: {
     width: "100%",
-    height: 375,
-    backgroundColor: "#415B85"
+    height: "100%",
+    resizeMode: "contain"
   },
   avatar: {
     width: 32,
@@ -196,19 +188,38 @@ const styles = StyleSheet.create({
   avatarView: {
     flexDirection: "row",
     alignItems: "center",
-    height: 60
+    height: 60,
+    borderColor: "#393e46",
+    borderBottomWidth: 0.2
   },
-  container: {
-    flex: 1,
-    backgroundColor: "#151C1F"
+  subtitle: {
+    fontSize: 16,
+    fontWeight: "400",
+    padding: 16,
+    fontFamily: normalText,
+    color: "#222831"
   },
   closeView: {
     width: 32,
     height: 32,
     backgroundColor: "#fff",
-    borderRadius: 16
+    borderRadius: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 2.62,
+    justifyContent: "center",
+    alignItems: "center"
   },
   photo: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 65
+  },
+  photos: {
     flex: 1,
     paddingLeft: 10,
     marginBottom: 65,
@@ -218,13 +229,13 @@ const styles = StyleSheet.create({
 
 const htmlStyles = StyleSheet.create({
   p: {
-    paddingTop: 5,
+    paddingTop: 2,
     fontSize: 16,
     paddingLeft: 16,
     lineHeight: 24,
     paddingRight: 5,
     fontFamily: normalText,
-    color: "#fff",
+    color: "#060508",
     lineHeight: 30
   },
   a: {

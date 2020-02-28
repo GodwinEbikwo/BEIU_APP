@@ -26,7 +26,7 @@ class Post extends React.Component {
       <View style={styles.container}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ backgroundColor: "#17223B" }}
+          style={{ backgroundColor: "#f4f4f6" }}
         >
           <StatusBar hidden />
           <View style={styles.cover}>
@@ -84,7 +84,7 @@ const normalText = "pt-serif";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#17223B"
+    backgroundColor: "#f4f4f6"
   },
   cover: {
     height: 525,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     padding: 16,
     fontFamily: normalText,
-    color: "#fff"
+    color: "#060508"
   },
   image: {
     width: "100%",
@@ -163,7 +163,7 @@ const htmlStyles = StyleSheet.create({
     lineHeight: 24,
     paddingRight: 5,
     fontFamily: normalText,
-    color: "#fff",
+    color: "#060508",
     lineHeight: 30
   },
   a: {

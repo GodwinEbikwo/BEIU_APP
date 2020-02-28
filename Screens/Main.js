@@ -15,6 +15,9 @@ import Card from "../components/Card";
 import styled from "styled-components";
 import Moment from "../components/Moment";
 import Categories from "../components/Categories";
+import LottieView from "lottie-react-native";
+
+const animation = require("../assets/animation/error.json");
 
 class Main extends React.Component {
   static navigationOptions = {
@@ -32,18 +35,23 @@ class Main extends React.Component {
             <Moment />
           </View>
 
-          <Query query={postsQuery}>
+          <Query query={postsQuery} pollInterval={500}>
             {({ loading, error, data }) => {
               if (loading)
-                return <ActivityIndicator size="small" color="#64ffda" />;
+                return <ActivityIndicator size="small" color="#000" />;
               if (error)
                 return (
-                  <Message>
-                    <Text>
-                      Ooppss!!! 😅 An error occured, refresh the page or close
-                      the app and repoen it to start working again
+                  <View style={styles.message}>
+                    <LottieView
+                      source={animation}
+                      autoPlay
+                      style={{ width: 250, height: 250 }}
+                      resizeMode="cover"
+                    />
+                    <Text style={{ fontFamily: "mont-regular", color: "grey" }}>
+                      An error occured
                     </Text>
-                  </Message>
+                  </View>
                 );
               return (
                 <CardsContainer>
@@ -111,7 +119,7 @@ class Main extends React.Component {
                         caption={post.tags}
                         dateAndTime={post.dateAndTime}
                         content={post.content}
-                        thumbnailColor={post.thumbnailColor.hex}
+                        // thumbnailColor={post.thumbnailColor.hex}
                       />
                     </TouchableOpacity>
                   ))}
@@ -162,10 +170,14 @@ const postsQuery = gql`
 `;
 
 export default Main;
+
+const bColour = "#fff";
+const bTextColour = "#393e46";
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#17223B"
+    backgroundColor: bColour
   },
   titleBar: {
     width: "100%",
@@ -176,16 +188,15 @@ const styles = StyleSheet.create({
   subCaption: {
     fontSize: 15,
     fontFamily: "mont-bold",
-    color: "#f3f4ff"
+    color: bTextColour
+    //  "#f3f4ff"
+  },
+  message: {
+    justifyContent: "center",
+    alignItems: "center"
   }
 });
 
-const Message = styled.Text`
-  margin: 20px;
-  color: #b8bece;
-  font-size: 15px;
-  font-weight: 500;
-`;
 const CardsContainer = styled.View`
   flex: 1;
   padding-bottom: 5px;

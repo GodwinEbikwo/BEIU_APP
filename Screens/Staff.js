@@ -5,12 +5,15 @@ import {
   View,
   StyleSheet,
   Text,
-  Image
+  Image,
+  Dimensions,
+  Platform
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "native-base";
-const normalText = "poppins-Bold";
-const smallText = "poppins-Light";
+import { SafeAreaView } from "react-navigation";
+const normalText = "mont-bold";
+const smallText = "pt-serif";
 
 class Staff extends React.Component {
   static navigationOptions = {
@@ -81,28 +84,6 @@ class Staff extends React.Component {
           }}
         >
           <Text style={styles.renderSection}>
-            The London Times writes: "They're wrong about oil, by George: In
-            short, the standard economic assumption that supply and demand drive
-            prices is only a starting point for understanding financial markets.
-            In boom-bust cycles, the textbook theory is not just slightly
-            inaccurate but totally wrong. This is the main argument made by
-            George Soros in his fascinating book on the credit crunch, "The New
-            Paradigm for Financial Markets," launched at an LSE lecture last
-            night."
-          </Text>
-        </View>
-      );
-    } else if (this.state.activeIndex == 2) {
-      return (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 5
-          }}
-        >
-          <Text style={styles.renderSection}>
             This is an informal research into the various ways and methods other
             universities in the United Kingdom go about marketing their
             entrepreneurship course to prospective students. We would compare
@@ -128,22 +109,19 @@ class Staff extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const section = navigation.getParam("section");
+    const screenPost = navigation.getParam("screenPost");
     return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: "#0a192f" }}
-      >
-        <View style={styles.container}>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.cover}>
             <Image
-              source={{
-                uri:
-                  "https://p15.f3.n0.cdn.getcloudapp.com/items/BluEqLZx/eastwood-done.png?v=e52b22a72ac7eec44f64a3c742e31b08"
-              }}
+              source={{ uri: screenPost.picture.large }}
               style={styles.image}
             />
-            <Text style={styles.title}>Kristian mackie</Text>
+            <Text style={styles.caption}>BEIU</Text>
+            <Text
+              style={styles.title}
+            >{`${screenPost.name.first} ${screenPost.name.last}`}</Text>
           </View>
 
           <View style={{}}>
@@ -174,6 +152,7 @@ class Staff extends React.Component {
                   About
                 </Text>
               </Button>
+
               <Button
                 onPress={() => this.segmentClicked(1)}
                 transparent
@@ -189,35 +168,8 @@ class Staff extends React.Component {
               >
                 <Text
                   style={[
-                    {
-                      fontSize: 18,
-                      color: "white",
-                      fontFamily: normalText,
-                      borderTopColor: "pink"
-                    },
-                    this.state.activeIndex == 1 ? {} : { color: "grey" }
-                  ]}
-                >
-                  Articles
-                </Text>
-              </Button>
-              <Button
-                onPress={() => this.segmentClicked(2)}
-                transparent
-                active={this.state.activeIndex == 2}
-                style={[
-                  this.state.activeIndex == 2
-                    ? {
-                        borderBottomColor: "#FFF",
-                        borderBottomWidth: 1
-                      }
-                    : { color: "grey" }
-                ]}
-              >
-                <Text
-                  style={[
                     { fontSize: 18, color: "white", fontFamily: normalText },
-                    this.state.activeIndex == 2 ? {} : { color: "grey" }
+                    this.state.activeIndex == 1 ? {} : { color: "grey" }
                   ]}
                 >
                   Contact
@@ -230,36 +182,39 @@ class Staff extends React.Component {
             onPress={() => {
               this.props.navigation.goBack();
             }}
-            style={{ position: "absolute", top: 40, left: 18 }}
+            style={{
+              position: "absolute",
+              top: Platform.OS === "ios" ? 37 : 26,
+              right: 8
+            }}
           >
             <View style={styles.closeView}>
               <Ionicons
-                name="md-arrow-back"
+                name="md-close"
                 size={24}
                 color="#000"
                 style={{ marginTop: 2 }}
               />
             </View>
           </TouchableOpacity>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     );
   }
 }
+
+const deviceWidth = Dimensions.get("window").width;
 
 export default Staff;
 
 const styles = StyleSheet.create({
   cover: {
-    height: 405,
+    height: 480,
     position: "relative",
-    backgroundColor: "#0A79DF",
-    borderBottomLeftRadius: 40,
-    borderBottomRightRadius: 40
+    backgroundColor: "#fffdf9"
   },
   container: {
-    flex: 1,
-    backgroundColor: "#0a192f"
+    backgroundColor: "#f4f4f6"
   },
   image: {
     width: "100%",
@@ -268,26 +223,27 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    color: "#fff",
+    color: "#f1f3f4",
     fontWeight: "bold",
-    width: 170,
+    width: 250,
     position: "absolute",
-    top: 78,
-    left: 20,
+    top: Platform.OS === "ios" ? 50 : 40,
+    left: 15,
     fontFamily: normalText
   },
   caption: {
-    color: "white",
-    fontSize: 17,
+    fontSize: 14,
+    color: "#f1f3f4",
+    fontWeight: "bold",
     position: "absolute",
-    bottom: 20,
-    left: 20,
-    width: 300
+    top: Platform.OS === "ios" ? 35 : 26,
+    left: 15,
+    fontFamily: smallText
   },
   closeView: {
     width: 32,
     height: 32,
-    backgroundColor: "white",
+    backgroundColor: "#f1f3f4",
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center"
@@ -297,11 +253,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     borderTopColor: "#eae5e5",
     padding: 6,
-    backgroundColor: "black",
-    marginTop: 15,
+    backgroundColor: "#212121",
     borderRadius: 65,
-    width: "90%",
-    marginLeft: 19,
+    width: "60%",
+    marginHorizontal: deviceWidth / 5,
     marginTop: -30,
     shadowColor: "#000",
     shadowOffset: {
@@ -314,10 +269,10 @@ const styles = StyleSheet.create({
     elevation: 30
   },
   renderSection: {
-    color: "#fff",
+    color: "#000",
     fontFamily: smallText,
-    padding: 10,
-    lineHeight: 25,
+    padding: 16,
+    lineHeight: 28,
     fontSize: 16
   }
 });

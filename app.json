@@ -9,9 +9,9 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/landingPage.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#17223B"
+      "backgroundColor": "#fff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,10 +22,8 @@
     },
     "androidNavigationBar": {
       "visible": true,
-
       "barStyle": "light-content",
-
-      "backgroundColor": "#26282b"
+      "backgroundColor": "#f5f5f5"
     }
   }
 }

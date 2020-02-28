@@ -1,38 +1,26 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet } from "react-native";
-const fontText = "poppins-Light";
-class Tags extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.view}>
-          <Text
-            style={{
-              fontWeight: "400",
-              fontSize: 10,
-              color: "black",
-              fontFamily: fontText
-            }}
-          >
-            {this.props.name}
-          </Text>
-        </View>
-      </View>
-    );
-  }
-}
+
+const Tags = props => {
+  return (
+    <View style={styles.container}>
+      <Text style={{ fontWeight: "700", fontSize: 10, color: "#000" }}>
+        {props.name}
+      </Text>
+    </View>
+  );
+};
 export default Tags;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  },
-  view: {
-    padding: 10,
-    backgroundColor: "#fe3547",
-    borderRadius: 8,
-    borderRadius: 2
+    minHeight: 30,
+    minWidth: 50,
+    padding: 9,
+    backgroundColor: "#d4d7dd",
+    borderColor: "#d4d7dd",
+    borderWidth: 1,
+    borderRadius: 2,
+    marginRight: 5
   }
 });

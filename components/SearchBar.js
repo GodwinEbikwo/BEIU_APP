@@ -22,12 +22,16 @@ class SearchBar extends Component {
         style={{
           flexDirection: "row",
           padding: 10,
-          backgroundColor: "white",
+          backgroundColor: "#f1f3f4",
           marginHorizontal: 20,
-          shadowOffset: { width: 0, height: 0 },
-          shadowColor: "black",
+          shadowColor: "#222831",
+          shadowOffset: {
+            width: 0,
+            height: 6
+          },
           shadowOpacity: 0.2,
-          elevation: 1,
+          shadowRadius: 10.0,
+          elevation: 16,
           borderRadius: 3,
           marginTop: Platform.OS == "android" ? 30 : null
         }}
@@ -41,7 +45,7 @@ class SearchBar extends Component {
           underlineColorAndroid="transparent"
           placeholder="Try Nigeria Society"
           placeholderTextColor="grey"
-          style={{ flex: 1, fontWeight: "700", backgroundColor: "white" }}
+          style={{ flex: 1, fontWeight: "700", backgroundColor: "#f1f3f4" }}
         />
       </View>
     );

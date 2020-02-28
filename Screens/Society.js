@@ -8,17 +8,17 @@ import {
   SafeAreaView,
   ActivityIndicator,
   Image,
-  Dimensions,
-  Button
+  Dimensions
 } from "react-native";
 import { Query, graphql } from "react-apollo";
 import gql from "graphql-tag";
 import styled from "styled-components/native";
 import SocietiesComponent from "../components/SocietiesComponent";
-import { Ionicons } from "@expo/vector-icons";
 import SearchBar from "../components/SearchBar";
-const boldText = "mont-bold";
 const { height, width } = Dimensions.get("window");
+import LottieView from "lottie-react-native";
+
+const animation = require("../assets/animation/error.json");
 
 class Society extends React.Component {
   static navigationOptions = {
@@ -32,15 +32,23 @@ class Society extends React.Component {
         </View>
 
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Query query={sostsQuery}>
+          <Query query={sostsQuery} pollInterval={500}>
             {({ loading, error, data }) => {
               if (loading)
-                return <ActivityIndicator size="small" color="#64ffda" />;
+                return <ActivityIndicator size="small" color="#000" />;
               if (error)
                 return (
-                  <Message>
-                    Error fetching posts, try restarting the application
-                  </Message>
+                  <View style={styles.message}>
+                    <LottieView
+                      source={animation}
+                      autoPlay
+                      style={{ width: 250, height: 250 }}
+                      resizeMode="cover"
+                    />
+                    <Text style={{ fontFamily: "mont-regular", color: "grey" }}>
+                      An error occured
+                    </Text>
+                  </View>
                 );
 
               return (
@@ -55,18 +63,7 @@ class Society extends React.Component {
                           uri:
                             "https://p15.f3.n0.cdn.getcloudapp.com/items/yAuvPz6g/plant.png?v=223d03e61bec5de28e09de7b51be9014"
                         }}
-                        style={{
-                          width: 90,
-                          height: 90,
-                          position: "absolute",
-                          resizeMode: "cover",
-                          left: "70%",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          borderRadius: 30,
-                          top: 15,
-                          transform: [{ rotate: "45deg" }]
-                        }}
+                        style={styles.largeCardImage}
                       />
                       <Text style={styles.largeCardText}>
                         Carribean Society
@@ -101,16 +98,11 @@ class Society extends React.Component {
               );
             }}
           </Query>
-          <Query query={allSocietysQuery}>
+          <Query query={allSocietysQuery} pollInterval={500}>
             {({ loading, error, data }) => {
               if (loading)
-                return <ActivityIndicator size="small" color="#17223B" />;
-              if (error)
-                return (
-                  <Message>
-                    Error fetching posts, try restarting the application
-                  </Message>
-                );
+                return <ActivityIndicator size="small" color="#fff" />;
+              if (error) return <Message></Message>;
 
               return (
                 <View style={styles.allSocietyView}>
@@ -191,7 +183,7 @@ const allSocietysQuery = gql`
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#17223B"
+    backgroundColor: "#fff"
   },
   titleBar: {
     width: "100%",
@@ -200,9 +192,9 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   caption: {
-    color: "#fff",
+    color: "#393e46",
     fontSize: 16,
-    fontFamily: "pt-serif"
+    fontFamily: "mont-bold"
   },
   largeCardText: {
     color: "#fff",
@@ -231,6 +223,23 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between"
+  },
+  message: {
+    marginTop: 20,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  largeCardImage: {
+    width: 90,
+    height: 90,
+    position: "absolute",
+    resizeMode: "cover",
+    left: "70%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    top: 15,
+    transform: [{ rotate: "45deg" }]
   }
 });
 

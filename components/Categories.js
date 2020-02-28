@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image } from "react-native";
 
 const Category = props => {
   return (
-    <View style={[styles.main, { backgroundColor: props.color || "#263859" }]}>
+    <View style={[styles.main, { backgroundColor: props.color || "#d4d7dd" }]}>
       <View style={styles.cover}>
         <Image
           source={props.imageUri}
@@ -22,7 +22,8 @@ const Category = props => {
           ellipsizeMode="tail"
           numberOfLines={1}
           style={{
-            color: "#f3f4f5",
+            color: "#000",
+            // "#f3f4f5",
             fontFamily: "pt-serif",
             fontSize: 14
           }}

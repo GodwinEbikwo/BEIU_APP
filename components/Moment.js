@@ -30,7 +30,9 @@ export default Moment;
 
 const boldText = "mont-bold";
 const normalText = "pt-serif";
-const textColor = "#fff";
+const textColor = "#000";
+const smallColor = "#000";
+
 const styles = StyleSheet.create({
   container: {
     position: "relative",
@@ -47,7 +49,8 @@ const styles = StyleSheet.create({
   small: {
     fontSize: 10,
     fontWeight: Platform.OS === "ios" ? "700" : "400",
-    color: "#e6f1ff",
+    color: smallColor,
+    // "#e6f1ff",
     marginLeft: 8,
     textTransform: "uppercase",
     fontFamily: normalText
