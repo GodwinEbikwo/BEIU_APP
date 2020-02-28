@@ -40,7 +40,7 @@ export default [
       value: null
     },
     picture: {
-      large: "https://randomuser.me/api/portraits/women/78.jpg",
+      large: "http://f.cl.ly/items/020p3p1w0o2n0X3B4237/NigerianSociety2.jpg",
       medium: "https://randomuser.me/api/portraits/med/women/78.jpg",
       thumbnail: "https://randomuser.me/api/portraits/thumb/women/78.jpg"
     },

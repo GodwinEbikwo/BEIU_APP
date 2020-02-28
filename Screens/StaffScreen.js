@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-  Text,
+  Keyboard,
   StyleSheet,
   View,
   SafeAreaView,
@@ -9,13 +9,20 @@ import {
   ActivityIndicator,
   Platform,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableWithoutFeedback
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { getUsers, contains } from "../api/index";
 import _ from "lodash";
-import { List, ListItem } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
+
+const DismissKeyboard = ({ children }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 class StaffScreen extends React.Component {
   static navigationOptions = {
@@ -38,9 +45,10 @@ class StaffScreen extends React.Component {
     this.makeRemoteRequest();
   }
 
-  makeRemoteRequest = () => {
+  makeRemoteRequest = _.debounce(() => {
     this.setState({ loading: true });
-    getUsers()
+
+    getUsers(15, this.state.query)
       .then(users => {
         this.setState({
           loading: false,
@@ -51,14 +59,14 @@ class StaffScreen extends React.Component {
       .catch(error => {
         this.setState({ error, loading: false });
       });
-  };
+  }, 250);
 
   handleSearch = text => {
     const formatQuery = text.toLowerCase();
     const data = _.filter(this.state.fullData, user => {
       return contains(user, formatQuery);
     });
-    this.setState({ query: formatQuery, data });
+    this.setState({ query: formatQuery, data }, () => this.makeRemoteRequest());
   };
 
   renderSeparator = () => {
@@ -88,11 +96,11 @@ class StaffScreen extends React.Component {
           />
           <TextInput
             underlineColorAndroid="transparent"
-            placeholder="Try Katie Jones"
+            placeholder="Try Katie Jones..."
             placeholderTextColor="#5f6769"
             onChangeText={this.handleSearch}
-            clearTextOnFocus={true}
-            enablesReturnKeyAutomatically={true}
+            clearTextOnFocus={false}
+            // enablesReturnKeyAutomatically={true}
             style={{
               flex: 1,
               fontWeight: "700",
@@ -105,7 +113,6 @@ class StaffScreen extends React.Component {
   };
   renderFooter = () => {
     if (!this.state.loading) return null;
-
     return (
       <View
         style={{
@@ -118,68 +125,70 @@ class StaffScreen extends React.Component {
       </View>
     );
   };
-
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-        <ScrollView
-          scrollEventThrottle={16}
-          showsVerticalScrollIndicator={false}
-        >
-          <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+      <DismissKeyboard>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+          <ScrollView
+            scrollEventThrottle={16}
+            showsVerticalScrollIndicator={false}
           >
-            <Icon
-              name="circle"
-              type="font-awesome"
-              color="#1089FF"
-              size={45}
-              style={{ backgroundColor: "transparent" }}
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: Platform.OS == "android" ? 25 : null
+              }}
+            >
+              <Icon
+                name="circle"
+                type="font-awesome"
+                color="#1089FF"
+                size={45}
+                style={{ backgroundColor: "transparent" }}
+              />
+            </View>
+
+            <FlatList
+              data={this.state.data}
+              keyExtractor={item => item.email}
+              ItemSeparatorComponent={this.renderSeparator}
+              ListHeaderComponent={this.renderHeader}
+              ListFooterComponent={this.renderFooter}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  key={item.email}
+                  onPress={() => {
+                    this.props.navigation.push("Staff", {
+                      screenPost: item
+                    });
+                  }}
+                >
+                  <View style={{ flex: 1 }}>
+                    <ListItem
+                      title={`${item.name.first} ${item.name.last}`}
+                      subtitle={item.email}
+                      leftAvatar={{ source: { uri: item.picture.large } }}
+                      containerStyle={{ borderBottomWidth: 0 }}
+                      titleStyle={styles.title}
+                      subtitleStyle={styles.textSubtitle}
+                      chevron={
+                        <Icon
+                          name="arrow-right"
+                          type="feather"
+                          color="#979797"
+                          size={19}
+                        />
+                      }
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
             />
-          </View>
-          {/* <View style={styles.textView}>
-            <Text style={styles.textHeading}>
-              What can we help you find Godwin?
-            </Text>
-          </View> */}
-          <FlatList
-            data={this.state.data}
-            keyExtractor={item => item.email}
-            ItemSeparatorComponent={this.renderSeparator}
-            ListHeaderComponent={this.renderHeader}
-            ListFooterComponent={this.renderFooter}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                key={item.email}
-                onPress={() => {
-                  this.props.navigation.push("Staff", {
-                    screenPost: item
-                  });
-                }}
-              >
-                <View style={{ flex: 1 }}>
-                  <ListItem
-                    title={`${item.name.first} ${item.name.last}`}
-                    subtitle={item.email}
-                    leftAvatar={{ source: { uri: item.picture.large } }}
-                    containerStyle={{ borderBottomWidth: 0 }}
-                    titleStyle={styles.title}
-                    subtitleStyle={styles.textSubtitle}
-                    chevron={
-                      <Icon
-                        name="arrow-right"
-                        type="feather"
-                        color="#979797"
-                        size={19}
-                      />
-                    }
-                  />
-                </View>
-              </TouchableOpacity>
-            )}
-          />
-        </ScrollView>
-      </SafeAreaView>
+          </ScrollView>
+        </SafeAreaView>
+      </DismissKeyboard>
     );
   }
 }
@@ -207,17 +216,5 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     marginTop: Platform.OS == "android" ? 8 : 8,
     marginBottom: 5
-  },
-  textView: {
-    flex: 1,
-    marginTop: 20,
-    marginHorizontal: 10,
-    marginBottom: 10
-  },
-  textHeading: {
-    fontSize: 20,
-    fontFamily: "mont-bold",
-    width: 360,
-    color: "#212121"
   }
 });

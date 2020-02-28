@@ -36,7 +36,7 @@ const smallColor = "#000";
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    marginTop: 35,
+    marginTop: Platform.OS === "ios" ? 10 : 35,
     marginLeft: 6
   },
   day: {

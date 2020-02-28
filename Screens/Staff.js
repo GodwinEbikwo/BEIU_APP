@@ -11,14 +11,42 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "native-base";
-import { SafeAreaView } from "react-navigation";
+import { LinearGradient } from "expo-linear-gradient";
+import { Icon } from "react-native-elements";
 const normalText = "mont-bold";
 const smallText = "pt-serif";
+import BottomSheet from "reanimated-bottom-sheet";
+import Swiper from "react-native-swiper";
 
 class Staff extends React.Component {
   static navigationOptions = {
     header: null
   };
+
+  renderInner = () => (
+    <View style={styles.panel}>
+      <Text style={[styles.panelTitle, { fontFamily: normalText }]}>
+        San Francisco Airport
+      </Text>
+      <Text style={styles.panelSubtitle}>
+        International Airport - 40 miles away
+      </Text>
+      <View style={styles.panelButton}>
+        <Text style={styles.panelButtonTitle}>Directions</Text>
+      </View>
+      <View style={styles.panelButton}>
+        <Text style={styles.panelButtonTitle}>Search Nearby</Text>
+      </View>
+    </View>
+  );
+
+  renderHeader = () => (
+    <View style={styles.header}>
+      <View style={styles.panelHeader}>
+        <View style={styles.panelHandle} />
+      </View>
+    </View>
+  );
 
   constructor(props) {
     super(props);
@@ -107,22 +135,48 @@ class Staff extends React.Component {
     }
   };
 
+  bs = React.createRef();
+
   render() {
     const { navigation } = this.props;
     const screenPost = navigation.getParam("screenPost");
     return (
       <View style={styles.container}>
+        <BottomSheet
+          ref={this.bs}
+          snapPoints={[500, 0, 0]}
+          renderContent={this.renderInner}
+          renderHeader={this.renderHeader}
+          initialSnap={1}
+        />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.cover}>
-            <Image
-              source={{ uri: screenPost.picture.large }}
-              style={styles.image}
-            />
-            <Text style={styles.caption}>BEIU</Text>
-            <Text
-              style={styles.title}
-            >{`${screenPost.name.first} ${screenPost.name.last}`}</Text>
-          </View>
+          <Swiper
+            height={480}
+            horizontal={false}
+            dotColor="#606470"
+            activeDotColor="#fff"
+          >
+            <View style={styles.cover}>
+              <Image
+                source={{ uri: screenPost.picture.large }}
+                style={styles.image}
+              />
+
+              <Text style={styles.caption}>BEIU</Text>
+              <Text
+                style={styles.title}
+              >{`${screenPost.name.first} ${screenPost.name.last}`}</Text>
+            </View>
+            <View style={styles.cover}>
+              <Image
+                source={{
+                  uri:
+                    "http://f.cl.ly/items/1N1l130d1e333E1z3T3G/NigerianSociety3.jpg"
+                }}
+                style={styles.image}
+              />
+            </View>
+          </Swiper>
 
           <View style={{}}>
             <View style={styles.tabs}>
@@ -134,7 +188,7 @@ class Staff extends React.Component {
                   this.state.activeIndex == 0
                     ? {
                         borderBottomColor: "#FFF",
-                        borderBottomWidth: 1
+                        borderBottomWidth: 2
                       }
                     : { color: "grey" }
                 ]}
@@ -161,7 +215,7 @@ class Staff extends React.Component {
                   this.state.activeIndex == 1
                     ? {
                         borderBottomColor: "#FFF",
-                        borderBottomWidth: 1
+                        borderBottomWidth: 2
                       }
                     : { color: "grey" }
                 ]}
@@ -185,15 +239,35 @@ class Staff extends React.Component {
             style={{
               position: "absolute",
               top: Platform.OS === "ios" ? 37 : 26,
-              right: 8
+              left: 8
             }}
           >
             <View style={styles.closeView}>
               <Ionicons
-                name="md-close"
+                name="md-arrow-back"
                 size={24}
                 color="#000"
                 style={{ marginTop: 2 }}
+              />
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.bs.current.snapTo(0)}
+            style={{
+              position: "absolute",
+              top: Platform.OS === "ios" ? 40 : 30,
+              right: 10
+            }}
+          >
+            <View style={styles.bottomSheetView}>
+              <Icon
+                name="more-horizontal"
+                type="feather"
+                color="#000"
+                size={24}
+                style={{
+                  backgroundColor: "transparent"
+                }}
               />
             </View>
           </TouchableOpacity>
@@ -209,9 +283,9 @@ export default Staff;
 
 const styles = StyleSheet.create({
   cover: {
-    height: 480,
+    flex: 1,
     position: "relative",
-    backgroundColor: "#fffdf9"
+    backgroundColor: "#f4f4f4"
   },
   container: {
     backgroundColor: "#f4f4f6"
@@ -227,8 +301,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     width: 250,
     position: "absolute",
-    top: Platform.OS === "ios" ? 50 : 40,
-    left: 15,
+    top: Platform.OS === "ios" ? 90 : 80,
+    left: 12,
     fontFamily: normalText
   },
   caption: {
@@ -236,23 +310,33 @@ const styles = StyleSheet.create({
     color: "#f1f3f4",
     fontWeight: "bold",
     position: "absolute",
-    top: Platform.OS === "ios" ? 35 : 26,
-    left: 15,
+    top: Platform.OS === "ios" ? 75 : 66,
+    left: 12,
     fontFamily: smallText
   },
   closeView: {
     width: 32,
     height: 32,
-    backgroundColor: "#f1f3f4",
+    backgroundColor: "#f4f4f4",
     borderRadius: 16,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    opacity: 0.6
+  },
+  bottomSheetView: {
+    width: 42,
+    height: 26,
+    borderRadius: 4,
+    backgroundColor: "#f1f3f4",
+    justifyContent: "center",
+    alignItems: "center",
+    opacity: 0.6
   },
   tabs: {
     flexDirection: "row",
     justifyContent: "space-around",
     borderTopColor: "#eae5e5",
-    padding: 6,
+    padding: 4,
     backgroundColor: "#212121",
     borderRadius: 65,
     width: "60%",
@@ -265,7 +349,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.16,
     shadowRadius: 9.11,
-
     elevation: 30
   },
   renderSection: {
@@ -274,5 +357,58 @@ const styles = StyleSheet.create({
     padding: 16,
     lineHeight: 28,
     fontSize: 16
+  },
+  panelContainer: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
+  },
+  panel: {
+    height: 600,
+    padding: 20,
+    backgroundColor: "#fff4e3"
+  },
+  header: {
+    backgroundColor: "#fff4e3",
+    shadowColor: "#000000",
+    paddingTop: 20,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20
+  },
+  panelHeader: {
+    alignItems: "center"
+  },
+  panelHandle: {
+    width: 40,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#17223b",
+    marginBottom: 10
+  },
+  panelTitle: {
+    fontSize: 27,
+    height: 35
+  },
+  panelSubtitle: {
+    fontSize: 14,
+    color: "gray",
+    height: 30,
+    marginBottom: 10,
+    fontFamily: smallText
+  },
+  panelButton: {
+    padding: 20,
+    borderRadius: 10,
+    backgroundColor: "#17223b",
+    alignItems: "center",
+    marginVertical: 10
+  },
+  panelButtonTitle: {
+    fontSize: 17,
+    fontWeight: "bold",
+    color: "white",
+    fontFamily: normalText
   }
 });
