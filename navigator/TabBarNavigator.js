@@ -1,5 +1,5 @@
 import React from "react";
-import { createAppContainer } from "react-navigation";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { Platform } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
@@ -11,10 +11,16 @@ import societyScreen from "../Screens/societyScreen";
 import StaffScreen from "../Screens/StaffScreen";
 import { Icon } from "react-native-elements";
 import Staff from "../Screens/Staff";
+import LoginScreen from "../Screens/LoginScreen";
+import SignupScreen from "../Screens/SignupScreen";
+import LoadingScreen from "../Screens/LoadingScreen";
+import IndexScreen from "../Screens/IndexScreen";
 
-const activeColor = "#1089FF";
+import firebase from "../components/Firebase";
+
+const activeColor = "#33FF7A";
 const inactiveColor = "#777E8B";
-const BackColor = "#f5f5f5";
+const BackColor = "#111112";
 const fontText = "mont-regular";
 
 const HomeStack = createStackNavigator(
@@ -43,12 +49,12 @@ HomeStack.navigationOptions = ({ navigation }) => {
         name="home"
         type="feather"
         color={focused ? activeColor : inactiveColor}
-        size={23}
+        size={27}
         style={{ backgroundColor: "transparent" }}
       />
     ),
     tabBarOptions: {
-      showLabel: true,
+      showLabel: false,
       activeTintColor: activeColor,
       inactiveTintColor: inactiveColor,
       labelStyle: {
@@ -57,7 +63,8 @@ HomeStack.navigationOptions = ({ navigation }) => {
       style: {
         height: Platform.OS === "ios" ? 50 : 55,
         paddingTop: Platform.OS === "ios" ? 10 : 8,
-        backgroundColor: BackColor
+        backgroundColor: BackColor,
+        borderTopColor: BackColor
       }
     }
   };
@@ -82,12 +89,12 @@ ExploreStack.navigationOptions = ({ navigation }) => {
       <Ionicons
         name="ios-search"
         color={focused ? activeColor : inactiveColor}
-        size={23}
+        size={27}
         style={{ backgroundColor: "transparent" }}
       />
     ),
     tabBarOptions: {
-      showLabel: true,
+      showLabel: false,
       activeTintColor: activeColor,
       inactiveTintColor: inactiveColor,
       labelStyle: {
@@ -96,7 +103,8 @@ ExploreStack.navigationOptions = ({ navigation }) => {
       style: {
         height: Platform.OS === "ios" ? 50 : 55,
         paddingTop: Platform.OS === "ios" ? 10 : 8,
-        backgroundColor: BackColor
+        backgroundColor: BackColor,
+        borderTopColor: BackColor
       }
     }
   };
@@ -123,12 +131,12 @@ InformationStack.navigationOptions = ({ navigation }) => {
         name="users"
         type="font-awesome"
         color={focused ? activeColor : inactiveColor}
-        size={23}
+        size={27}
         style={{ backgroundColor: "transparent" }}
       />
     ),
     tabBarOptions: {
-      showLabel: true,
+      showLabel: false,
       activeTintColor: activeColor,
       inactiveTintColor: inactiveColor,
       labelStyle: {
@@ -137,7 +145,8 @@ InformationStack.navigationOptions = ({ navigation }) => {
       style: {
         height: Platform.OS === "ios" ? 50 : 55,
         paddingTop: Platform.OS === "ios" ? 10 : 8,
-        backgroundColor: BackColor
+        backgroundColor: BackColor,
+        borderTopColor: "BackColor"
       }
     }
   };
@@ -148,4 +157,21 @@ const TabBarNavigator = createBottomTabNavigator({
   InformationStack
 });
 
-export default createAppContainer(TabBarNavigator);
+const AuthStack = createStackNavigator({
+  Index: IndexScreen,
+  Login: LoginScreen,
+  SignUp: SignupScreen
+});
+
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      Loading: LoadingScreen,
+      App: TabBarNavigator,
+      Auth: AuthStack
+    },
+    {
+      initialRouteName: "Loading"
+    }
+  )
+);

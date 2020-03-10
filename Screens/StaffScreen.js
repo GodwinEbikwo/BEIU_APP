@@ -17,6 +17,7 @@ import { getUsers, contains } from "../api/index";
 import _ from "lodash";
 import { ListItem } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
+import Tags from "../components/Tags";
 
 const DismissKeyboard = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -75,7 +76,7 @@ class StaffScreen extends React.Component {
         style={{
           height: 1,
           width: "100%",
-          backgroundColor: "#f1f3f4"
+          backgroundColor: "#2C2C2E"
         }}
       />
     );
@@ -85,32 +86,36 @@ class StaffScreen extends React.Component {
     return (
       <View
         style={{
-          flex: 1
+          flex: 1,
+          marginBottom: 5
         }}
       >
         <View style={styles.searchBar}>
           <Ionicons
             name="ios-search"
             size={20}
+            color={"grey"}
             style={{ backgroundColor: "transparent", marginHorizontal: 10 }}
           />
           <TextInput
             underlineColorAndroid="transparent"
             placeholder="Try Katie Jones..."
-            placeholderTextColor="#5f6769"
+            placeholderTextColor="grey"
             onChangeText={this.handleSearch}
+            keyboardAppearance={"dark"}
             clearTextOnFocus={false}
-            // enablesReturnKeyAutomatically={true}
             style={{
               flex: 1,
               fontWeight: "700",
-              backgroundColor: "#ededed"
+              backgroundColor: "#2C2C2E",
+              color: "#fff"
             }}
           />
         </View>
       </View>
     );
   };
+
   renderFooter = () => {
     if (!this.state.loading) return null;
     return (
@@ -128,65 +133,46 @@ class StaffScreen extends React.Component {
   render() {
     return (
       <DismissKeyboard>
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
-          <ScrollView
-            scrollEventThrottle={16}
-            showsVerticalScrollIndicator={false}
-          >
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: Platform.OS == "android" ? 25 : null
-              }}
-            >
-              <Icon
-                name="circle"
-                type="font-awesome"
-                color="#1089FF"
-                size={45}
-                style={{ backgroundColor: "transparent" }}
-              />
-            </View>
-
-            <FlatList
-              data={this.state.data}
-              keyExtractor={item => item.email}
-              ItemSeparatorComponent={this.renderSeparator}
-              ListHeaderComponent={this.renderHeader}
-              ListFooterComponent={this.renderFooter}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  key={item.email}
-                  onPress={() => {
-                    this.props.navigation.push("Staff", {
-                      screenPost: item
-                    });
-                  }}
-                >
-                  <View style={{ flex: 1 }}>
-                    <ListItem
-                      title={`${item.name.first} ${item.name.last}`}
-                      subtitle={item.email}
-                      leftAvatar={{ source: { uri: item.picture.large } }}
-                      containerStyle={{ borderBottomWidth: 0 }}
-                      titleStyle={styles.title}
-                      subtitleStyle={styles.textSubtitle}
-                      chevron={
-                        <Icon
-                          name="arrow-right"
-                          type="feather"
-                          color="#979797"
-                          size={19}
-                        />
-                      }
-                    />
-                  </View>
-                </TouchableOpacity>
-              )}
-            />
-          </ScrollView>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#0a0a0a" }}>
+          <FlatList
+            data={this.state.data}
+            keyExtractor={item => item.email}
+            ItemSeparatorComponent={this.renderSeparator}
+            ListHeaderComponent={this.renderHeader}
+            ListFooterComponent={this.renderFooter}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                key={item.email}
+                onPress={() => {
+                  this.props.navigation.push("Staff", {
+                    screenPost: item
+                  });
+                }}
+              >
+                <View style={{ flex: 1 }}>
+                  <ListItem
+                    title={`${item.name.first} ${item.name.last}`}
+                    subtitle={item.email}
+                    leftAvatar={{ source: { uri: item.picture.large } }}
+                    containerStyle={{
+                      borderBottomWidth: 0,
+                      backgroundColor: "#1C1C1E"
+                    }}
+                    titleStyle={styles.title}
+                    subtitleStyle={styles.textSubtitle}
+                    chevron={
+                      <Icon
+                        name="arrow-right"
+                        type="feather"
+                        color="#48484A"
+                        size={19}
+                      />
+                    }
+                  />
+                </View>
+              </TouchableOpacity>
+            )}
+          />
         </SafeAreaView>
       </DismissKeyboard>
     );
@@ -200,18 +186,18 @@ const subtitleText = "pt-serif";
 const styles = StyleSheet.create({
   title: {
     fontFamily: titleText,
-    color: "#212121",
+    color: "#fff",
     fontSize: 15
   },
   textSubtitle: {
     fontFamily: subtitleText,
-    color: "#393e46",
+    color: "#eee",
     fontSize: 13
   },
   searchBar: {
     flexDirection: "row",
-    padding: 10,
-    backgroundColor: "#ededed",
+    padding: 12,
+    backgroundColor: "#2C2C2E",
     marginHorizontal: 5,
     borderRadius: 7,
     marginTop: Platform.OS == "android" ? 8 : 8,

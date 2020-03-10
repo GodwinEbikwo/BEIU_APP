@@ -27,6 +27,13 @@ class Society extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
+        <View style={{ marginHorizontal: 20, marginTop: 10 }}>
+          <Text
+            style={{ fontFamily: "mont-bold", fontSize: 30, color: "#fff" }}
+          >
+            Search
+          </Text>
+        </View>
         <View style={styles.titleBar}>
           <SearchBar />
         </View>
@@ -42,7 +49,7 @@ class Society extends React.Component {
                     <LottieView
                       source={animation}
                       autoPlay
-                      style={{ width: 250, height: 250 }}
+                      style={{ width: 150, height: 150 }}
                       resizeMode="cover"
                     />
                     <Text style={{ fontFamily: "mont-regular", color: "grey" }}>
@@ -183,13 +190,12 @@ const allSocietysQuery = gql`
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#0a0a0a"
   },
   titleBar: {
-    width: "100%",
     paddingLeft: 5,
     paddingBottom: 5,
-    marginTop: 30
+    marginTop: 5
   },
   caption: {
     color: "#393e46",

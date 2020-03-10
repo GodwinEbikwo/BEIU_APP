@@ -13,8 +13,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { Button } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
 import { Icon } from "react-native-elements";
-const normalText = "mont-bold";
-const smallText = "pt-serif";
 import BottomSheet from "reanimated-bottom-sheet";
 import Swiper from "react-native-swiper";
 
@@ -101,38 +99,6 @@ class Staff extends React.Component {
         </View>
       );
     }
-    if (this.state.activeIndex == 1) {
-      return (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 5
-          }}
-        >
-          <Text style={styles.renderSection}>
-            This is an informal research into the various ways and methods other
-            universities in the United Kingdom go about marketing their
-            entrepreneurship course to prospective students. We would compare
-            different attributes such as language and visuals used in the
-            marketing process. In this brilliant and spirited book, Soros brings
-            together a vital collection of his writings, some never previously
-            published. They deal with a wide range of important and timely
-            topics: the dangers that the instruments of control produced by
-            artificial intelligence and machine learning pose to open societies;
-            what Soros calls his “political philanthropy”; his founding of the
-            Central European University, one of the world’s foremost defender of
-            academic freedom; his philosophy; his boom/bust theory of financial
-            markets and its policy implications; and what he calls the tragedy
-            of the European Union. Soros’s forceful affirmation of freedom,
-            democracy, the rule of law, human rights, social justice, and social
-            responsibility as a universal idea is a clarion call-to-arms for the
-            ideals of open society.
-          </Text>
-        </View>
-      );
-    }
   };
 
   bs = React.createRef();
@@ -158,7 +124,10 @@ class Staff extends React.Component {
           >
             <View style={styles.cover}>
               <Image
-                source={{ uri: screenPost.picture.large }}
+                source={{
+                  uri: screenPost.picture.large,
+                  cache: "only-if-cached"
+                }}
                 style={styles.image}
               />
 
@@ -184,14 +153,14 @@ class Staff extends React.Component {
                 onPress={() => this.segmentClicked(0)}
                 transparent
                 active={this.state.activeIndex == 0}
-                style={[
-                  this.state.activeIndex == 0
-                    ? {
-                        borderBottomColor: "#FFF",
-                        borderBottomWidth: 2
-                      }
-                    : { color: "grey" }
-                ]}
+                // style={[
+                //   this.state.activeIndex == 0
+                //     ? {
+                //         borderBottomColor: "#FFF",
+                //         borderBottomWidth: 2
+                //       }
+                //     : { color: "grey" }
+                // ]}
               >
                 <Text
                   style={[
@@ -204,29 +173,6 @@ class Staff extends React.Component {
                   ]}
                 >
                   About
-                </Text>
-              </Button>
-
-              <Button
-                onPress={() => this.segmentClicked(1)}
-                transparent
-                active={this.state.activeIndex == 1}
-                style={[
-                  this.state.activeIndex == 1
-                    ? {
-                        borderBottomColor: "#FFF",
-                        borderBottomWidth: 2
-                      }
-                    : { color: "grey" }
-                ]}
-              >
-                <Text
-                  style={[
-                    { fontSize: 18, color: "white", fontFamily: normalText },
-                    this.state.activeIndex == 1 ? {} : { color: "grey" }
-                  ]}
-                >
-                  Contact
                 </Text>
               </Button>
             </View>
@@ -277,10 +223,10 @@ class Staff extends React.Component {
   }
 }
 
-const deviceWidth = Dimensions.get("window").width;
-
 export default Staff;
-
+const screen = Dimensions.get("window");
+const normalText = "mont-bold";
+const smallText = "pt-serif";
 const styles = StyleSheet.create({
   cover: {
     flex: 1,
@@ -288,7 +234,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f4f4f4"
   },
   container: {
-    backgroundColor: "#f4f4f6"
+    backgroundColor: "#1C1C1E"
   },
   image: {
     width: "100%",
@@ -337,10 +283,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     borderTopColor: "#eae5e5",
     padding: 4,
-    backgroundColor: "#212121",
+    backgroundColor: "#2C2C2E",
     borderRadius: 65,
-    width: "60%",
-    marginHorizontal: deviceWidth / 5,
+    width: "50%",
+    marginHorizontal: screen.width / 4,
     marginTop: -30,
     shadowColor: "#000",
     shadowOffset: {
@@ -352,7 +298,7 @@ const styles = StyleSheet.create({
     elevation: 30
   },
   renderSection: {
-    color: "#000",
+    color: "#fff",
     fontFamily: smallText,
     padding: 16,
     lineHeight: 28,
@@ -368,10 +314,10 @@ const styles = StyleSheet.create({
   panel: {
     height: 600,
     padding: 20,
-    backgroundColor: "#fff4e3"
+    backgroundColor: "#1C1C1E"
   },
   header: {
-    backgroundColor: "#fff4e3",
+    backgroundColor: "#1C1C1E",
     shadowColor: "#000000",
     paddingTop: 20,
     borderTopLeftRadius: 20,
@@ -384,16 +330,17 @@ const styles = StyleSheet.create({
     width: 40,
     height: 8,
     borderRadius: 4,
-    backgroundColor: "#17223b",
+    backgroundColor: "#eeeeee",
     marginBottom: 10
   },
   panelTitle: {
     fontSize: 27,
-    height: 35
+    height: 35,
+    color: "#f3f4f5"
   },
   panelSubtitle: {
     fontSize: 14,
-    color: "gray",
+    color: "#eee",
     height: 30,
     marginBottom: 10,
     fontFamily: smallText
@@ -401,14 +348,14 @@ const styles = StyleSheet.create({
   panelButton: {
     padding: 20,
     borderRadius: 10,
-    backgroundColor: "#17223b",
+    backgroundColor: "#2C2C2E",
     alignItems: "center",
     marginVertical: 10
   },
   panelButtonTitle: {
     fontSize: 17,
     fontWeight: "bold",
-    color: "white",
+    color: "#f3f4f4",
     fontFamily: normalText
   }
 });

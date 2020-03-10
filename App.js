@@ -1,12 +1,10 @@
 import React from "react";
 import { StatusBar, Platform } from "react-native";
 import * as Font from "expo-font";
-
 import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
-
 import TabBarNavigator from "./navigator/TabBarNavigator";
 
 import { Asset } from "expo-asset";
@@ -49,17 +47,15 @@ export default class App extends React.Component {
     const fontAssets = Font.loadAsync({
       "mont-bold": require("./assets/fonts/Montserrat-Bold.ttf"),
       "mont-regular": require("./assets/fonts/Montserrat-Regular.ttf"),
-      "poppins-Bold": require("./assets/fonts/Poppins-Bold.ttf"),
-      "poppins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
       "pt-serif": require("./assets/fonts/PTSerif-Regular.ttf")
     });
 
     await Promise.all([...imageAssets, fontAssets]);
   }
   componentDidMount() {
-    StatusBar.setBarStyle("dark-content", true);
+    StatusBar.setBarStyle("light-content", true);
 
-    if (Platform.OS == "android") StatusBar.setBarStyle("dark-content", true);
+    if (Platform.OS == "android") StatusBar.setBarStyle("light-content", true);
   }
 
   render() {

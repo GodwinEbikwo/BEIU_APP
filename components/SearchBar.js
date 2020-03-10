@@ -21,31 +21,25 @@ class SearchBar extends Component {
       <View
         style={{
           flexDirection: "row",
-          padding: 10,
-          backgroundColor: "#f1f3f4",
-          marginHorizontal: 20,
-          shadowColor: "#222831",
-          shadowOffset: {
-            width: 0,
-            height: 6
-          },
-          shadowOpacity: 0.2,
-          shadowRadius: 10.0,
-          elevation: 16,
-          borderRadius: 3,
+          padding: 12,
+          backgroundColor: "#2C2C2E",
+          marginHorizontal: 15,
+          borderRadius: 7,
           marginTop: Platform.OS == "android" ? 30 : null
         }}
       >
         <Ionicons
           name="ios-search"
           size={20}
+          color={"grey"}
           style={{ backgroundColor: "transparent", marginRight: 10 }}
         />
         <TextInput
           underlineColorAndroid="transparent"
           placeholder="Try Nigeria Society"
           placeholderTextColor="grey"
-          style={{ flex: 1, fontWeight: "700", backgroundColor: "#f1f3f4" }}
+          style={{ flex: 1, fontWeight: "700", backgroundColor: "#2C2C2E" }}
+          keyboardAppearance={"dark"}
         />
       </View>
     );

@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { timeDifferenceForDate } from "./Time";
 import { Ionicons } from "@expo/vector-icons";
 import ProgressiveImage from "../components/ProgressiveImage";
+import { BlurView } from "expo-blur";
 
-const Card = props => (
+export const Card = props => (
   <Container>
     <Cover>
       <ProgressiveImage
@@ -28,44 +29,10 @@ const Card = props => (
         />
       </TouchableOpacity>
     </Cover>
-    {/* <Content>
-      <ProgressiveImage
-        source={props.logo}
-        style={{ width: 44, height: 44, borderRadius: 22, marginTop: 11 }}
-      />
-      <Wrapper>
-        <Text
-          style={{
-            color: "#DDE3E9",
-            fontWeight: "400",
-            fontSize: 14,
-            fontFamily: "mont-regular"
-          }}
-        >
-          Created by {props.name}{" "}
-          <Text
-            style={{
-              color: "#74B9FF",
-              fontFamily: "pt-serif",
-              fontSize: 12.5
-            }}
-          >
-            {timeDifferenceForDate(props.dateAndTime)}
-          </Text>
-        </Text>
-      </Wrapper>
-    </Content> */}
   </Container>
 );
 
 export default Card;
-
-const Content = styled.View`
-  padding-left: 20px;
-  flex-direction: row;
-  align-items: center;
-  height: 50px;
-`;
 
 const Caption = styled.Text`
   color: #fff;
@@ -78,11 +45,6 @@ const Caption = styled.Text`
   font-family: "pt-serif";
 `;
 
-const Wrapper = styled.View`
-  margin-left: 9px;
-  margin-top: 11px;
-`;
-
 const Container = styled.View`
   background: #d4d7dd;
   width: 92%;
@@ -93,7 +55,7 @@ const Container = styled.View`
 
 const Cover = styled.View`
   width: 100%;
-  height: 400px;
+  height: 300px;
   border-top-left-radius: 9px;
   border-top-right-radius: 9px;
   border-bottom-left-radius: 9px;
