@@ -16,9 +16,7 @@ import SignupScreen from "../Screens/SignupScreen";
 import LoadingScreen from "../Screens/LoadingScreen";
 import IndexScreen from "../Screens/IndexScreen";
 
-import firebase from "../components/Firebase";
-
-const activeColor = "#33FF7A";
+const activeColor = "#1db954";
 const inactiveColor = "#777E8B";
 const BackColor = "#111112";
 const fontText = "mont-regular";

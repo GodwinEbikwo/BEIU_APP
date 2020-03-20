@@ -37,7 +37,7 @@ class LoginScreen extends React.Component {
     errorMessage: null
   };
 
-  handleLogin = async () => {
+  handleLogin = () => {
     const { email, password } = this.state;
 
     if (email.split("@")[1] !== "buckingham.ac.uk") {

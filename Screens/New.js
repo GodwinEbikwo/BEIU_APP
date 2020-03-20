@@ -35,7 +35,7 @@ export default class New extends React.Component {
               <FlatList
                 data={data.posts}
                 keyExtractor={item => item.email}
-                // onRefresh={() => data.refetch()}
+                onRefresh={() => data.refetch()}
                 onEndReached={() => {
                   data.fetchMore({
                     variables: {

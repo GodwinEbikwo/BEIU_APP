@@ -3,11 +3,7 @@
     "name": "anotherBlog",
     "slug": "another_blog",
     "privacy": "public",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,16 +15,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "androidNavigationBar": {
       "visible": true,
       "barStyle": "light-content",
-      "backgroundColor": "#f5f5f5"
+      "backgroundColor": "#111112"
     }
   }
 }

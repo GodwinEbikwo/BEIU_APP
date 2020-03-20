@@ -13,7 +13,8 @@ import {
 import gql from "graphql-tag";
 import { Query, graphql } from "react-apollo";
 import Card from "../components/Card";
-import NewCard from "../components/NewCard";
+import NewCard from "../components/Card/NewCard";
+import { SecondCard } from "../components/Card/SecondCard";
 import styled from "styled-components";
 import Moment from "../components/Moment";
 import Categories from "../components/Categories";
@@ -56,8 +57,8 @@ class Main extends React.Component {
           <View style={styles.titleBar}>
             <Moment />
           </View>
-
-          <Button title="signOut" onPress={this.signOutUser} />
+          {/* 
+          <Button title="signOut" onPress={this.signOutUser} /> */}
 
           <View style={{ marginLeft: 20 }}>
             <Text style={[styles.subCaption, { color: "#33FF7A" }]}>
@@ -117,7 +118,21 @@ class Main extends React.Component {
                 "https://p15.f3.n0.cdn.getcloudapp.com/items/o0uDeQre/martin-katler-YZQe6sGM9IQ-unsplash.jpg?v=71c05bdbde1067438e0fa12bc9a3a4e7"
             }}
           />
-          <NewCard
+
+          <SecondCard
+            image={{
+              uri:
+                "https://p15.f3.n0.cdn.getcloudapp.com/items/BluBWLw4/jordan-whitfield-3cNc1U7nJcs-unsplash.jpg?v=03f873aee8f537881768c93023ee0668"
+            }}
+            subtitle="BEIU"
+            title="Yesskirr"
+            paragraph="10 millions, cocain white as Tee"
+            logo={{
+              uri:
+                "https://f.v1.n0.cdn.getcloudapp.com/items/2I0E1m2n0520460J1U1J/beautiful-beauty-blouse-1036623.jpg"
+            }}
+          />
+          {/* <NewCard
             title="Climate Change"
             subtitle="beiu"
             author="Alwxander"
@@ -126,7 +141,7 @@ class Main extends React.Component {
               uri:
                 "https://p15.f3.n0.cdn.getcloudapp.com/items/GGuNWAOr/the-honest-company-oqmIM9bkAWQ-unsplash.jpg?v=a4f04221a47ea679cec4cbe13de8498e"
             }}
-          />
+          /> */}
 
           <Query query={postsQuery} pollInterval={500}>
             {({ loading, error, data }) => {

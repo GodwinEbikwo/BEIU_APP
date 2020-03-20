@@ -7,48 +7,36 @@ import {
   Text,
   Image,
   Dimensions,
-  Platform
+  Platform,
+  Modal
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { Button } from "native-base";
-import { LinearGradient } from "expo-linear-gradient";
+import { Button, Item } from "native-base";
 import { Icon } from "react-native-elements";
 import BottomSheet from "reanimated-bottom-sheet";
 import Swiper from "react-native-swiper";
+import { Linking } from "expo";
+import { BlurView } from "expo-blur";
 
 class Staff extends React.Component {
   static navigationOptions = {
     header: null
   };
 
-  renderInner = () => (
-    <View style={styles.panel}>
-      <Text style={[styles.panelTitle, { fontFamily: normalText }]}>
-        San Francisco Airport
-      </Text>
-      <Text style={styles.panelSubtitle}>
-        International Airport - 40 miles away
-      </Text>
-      <View style={styles.panelButton}>
-        <Text style={styles.panelButtonTitle}>Directions</Text>
-      </View>
-      <View style={styles.panelButton}>
-        <Text style={styles.panelButtonTitle}>Search Nearby</Text>
-      </View>
-    </View>
-  );
+  state = {
+    modalVisible: false
+  };
 
-  renderHeader = () => (
-    <View style={styles.header}>
-      <View style={styles.panelHeader}>
-        <View style={styles.panelHandle} />
-      </View>
-    </View>
-  );
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  _handlePress = () => {
+    Linking.openURL("https://wa.me/447405042014");
+  };
 
   constructor(props) {
     super(props);
-
     this.state = {
       activeIndex: 0
     };
@@ -101,20 +89,11 @@ class Staff extends React.Component {
     }
   };
 
-  bs = React.createRef();
-
   render() {
     const { navigation } = this.props;
     const screenPost = navigation.getParam("screenPost");
     return (
       <View style={styles.container}>
-        <BottomSheet
-          ref={this.bs}
-          snapPoints={[500, 0, 0]}
-          renderContent={this.renderInner}
-          renderHeader={this.renderHeader}
-          initialSnap={1}
-        />
         <ScrollView showsVerticalScrollIndicator={false}>
           <Swiper
             height={480}
@@ -147,20 +126,12 @@ class Staff extends React.Component {
             </View>
           </Swiper>
 
-          <View style={{}}>
+          <View>
             <View style={styles.tabs}>
               <Button
                 onPress={() => this.segmentClicked(0)}
                 transparent
                 active={this.state.activeIndex == 0}
-                // style={[
-                //   this.state.activeIndex == 0
-                //     ? {
-                //         borderBottomColor: "#FFF",
-                //         borderBottomWidth: 2
-                //       }
-                //     : { color: "grey" }
-                // ]}
               >
                 <Text
                   style={[
@@ -184,7 +155,7 @@ class Staff extends React.Component {
             }}
             style={{
               position: "absolute",
-              top: Platform.OS === "ios" ? 37 : 26,
+              top: Platform.OS === "ios" ? 47 : 36,
               left: 8
             }}
           >
@@ -197,15 +168,114 @@ class Staff extends React.Component {
               />
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.bs.current.snapTo(0)}
-            style={{
-              position: "absolute",
-              top: Platform.OS === "ios" ? 40 : 30,
-              right: 10
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
             }}
           >
-            <View style={styles.bottomSheetView}>
+            <BlurView
+              tint="dark"
+              intensity={100}
+              style={{
+                flex: 1
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  marginTop: screen.height / 4,
+                  marginHorizontal: screen.width / 4
+                }}
+              >
+                <Image
+                  source={{
+                    uri:
+                      "http://f.cl.ly/items/1N1l130d1e333E1z3T3G/NigerianSociety3.jpg"
+                  }}
+                  style={{ width: 200, height: 200 }}
+                />
+              </View>
+              <View style={{ marginHorizontal: screen.width / 5 }}>
+                <Text
+                  style={{
+                    color: "#AEAEB2",
+                    fontFamily: "mont-regular",
+                    width: 350
+                  }}
+                >
+                  Say hi 👋, don't forget to be polite 😁
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "flex-end",
+                  marginBottom: screen.height / 4.6
+                }}
+              >
+                <Text
+                  style={{
+                    marginHorizontal: 17,
+                    padding: 20,
+                    fontFamily: normalText,
+                    fontSize: 23,
+                    color: "#fff"
+                  }}
+                >
+                  Contact {`${screenPost.name.first} ${screenPost.name.last}`}
+                </Text>
+
+                <TouchableOpacity onPress={this._handlePress}>
+                  <View style={styles.panelButton}>
+                    <ModalText name="phone-call" modalItem="WhatsApp" />
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => Linking.openURL(`mailto:${screenPost.email}`)}
+                >
+                  <View style={styles.panelButton}>
+                    <ModalText name="mail" modalItem="Email" />
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </BlurView>
+            <TouchableOpacity
+              onPress={() => {
+                this.setModalVisible(!this.state.modalVisible);
+              }}
+              style={styles.topButton}
+            >
+              <View>
+                <Icon
+                  name="x"
+                  type="feather"
+                  color="#fff"
+                  size={24}
+                  style={{
+                    backgroundColor: "transparent"
+                  }}
+                />
+              </View>
+            </TouchableOpacity>
+          </Modal>
+
+          <TouchableOpacity
+            onPress={() => {
+              this.setModalVisible(true);
+            }}
+            style={{
+              position: "absolute",
+              top: Platform.OS === "ios" ? 47 : 36,
+              right: 8
+            }}
+          >
+            <View style={styles.closeView}>
               <Icon
                 name="more-horizontal"
                 type="feather"
@@ -222,6 +292,18 @@ class Staff extends React.Component {
     );
   }
 }
+
+const ModalText = props => {
+  return (
+    <View style={{ flexDirection: "row", marginHorizontal: 20 }}>
+      <View style={{ marginTop: 5 }}>
+        <Icon name={props.name} type="feather" size={18} color="#1db954" />
+      </View>
+
+      <Text style={styles.modalItemText}>{props.modalItem}</Text>
+    </View>
+  );
+};
 
 export default Staff;
 const screen = Dimensions.get("window");
@@ -247,7 +329,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     width: 250,
     position: "absolute",
-    top: Platform.OS === "ios" ? 90 : 80,
+    top: Platform.OS === "ios" ? 100 : 95,
     left: 12,
     fontFamily: normalText
   },
@@ -256,7 +338,7 @@ const styles = StyleSheet.create({
     color: "#f1f3f4",
     fontWeight: "bold",
     position: "absolute",
-    top: Platform.OS === "ios" ? 75 : 66,
+    top: Platform.OS === "ios" ? 85 : 75,
     left: 12,
     fontFamily: smallText
   },
@@ -304,35 +386,6 @@ const styles = StyleSheet.create({
     lineHeight: 28,
     fontSize: 16
   },
-  panelContainer: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0
-  },
-  panel: {
-    height: 600,
-    padding: 20,
-    backgroundColor: "#1C1C1E"
-  },
-  header: {
-    backgroundColor: "#1C1C1E",
-    shadowColor: "#000000",
-    paddingTop: 20,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
-  },
-  panelHeader: {
-    alignItems: "center"
-  },
-  panelHandle: {
-    width: 40,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#eeeeee",
-    marginBottom: 10
-  },
   panelTitle: {
     fontSize: 27,
     height: 35,
@@ -340,22 +393,37 @@ const styles = StyleSheet.create({
   },
   panelSubtitle: {
     fontSize: 14,
-    color: "#eee",
+    color: "#AEAEB2",
     height: 30,
     marginBottom: 10,
     fontFamily: smallText
   },
   panelButton: {
-    padding: 20,
-    borderRadius: 10,
-    backgroundColor: "#2C2C2E",
-    alignItems: "center",
-    marginVertical: 10
+    padding: 15,
+    // borderRadius: 10,
+    // backgroundColor: "#2C2C2E",
+    // alignItems: "center",
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderColor: "#2C2C2E",
+    marginVertical: 5
   },
-  panelButtonTitle: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: "#f3f4f4",
-    fontFamily: normalText
+  topButton: {
+    position: "absolute",
+    top: Platform.OS === "ios" ? 50 : 40,
+    right: 10,
+    backgroundColor: "#2C2C2E",
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20
+  },
+  modalItemText: {
+    color: "#e3e3e3",
+    fontSize: 14,
+    fontWeight: "400",
+    fontFamily: "mont-regular",
+    marginHorizontal: 7,
+    marginTop: 5
   }
 });

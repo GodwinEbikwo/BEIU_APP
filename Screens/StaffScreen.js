@@ -10,6 +10,7 @@ import {
   Platform,
   TextInput,
   TouchableOpacity,
+  Text,
   TouchableWithoutFeedback
 } from "react-native";
 import { Icon } from "react-native-elements";
@@ -138,8 +139,8 @@ class StaffScreen extends React.Component {
             data={this.state.data}
             keyExtractor={item => item.email}
             ItemSeparatorComponent={this.renderSeparator}
-            ListHeaderComponent={this.renderHeader}
             ListFooterComponent={this.renderFooter}
+            ListHeaderComponent={this.renderHeader}
             renderItem={({ item }) => (
               <TouchableOpacity
                 key={item.email}

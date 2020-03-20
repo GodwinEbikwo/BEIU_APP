@@ -7,6 +7,7 @@ export default [
       last: "Mackie"
     },
     email: "janique.costa@example.com",
+    title: "Admin",
     dob: "1969-10-22 10:35:24",
     registered: "2014-09-22 22:38:28",
     phone: "(48) 4518-1459",
@@ -31,6 +32,7 @@ export default [
       last: "Ebikwo"
     },
     email: "godwin.ebikwo@example.com",
+    title: "Teacher",
     dob: "1974-11-29 01:41:41",
     registered: "2007-12-26 04:00:19",
     phone: "(278)-129-7230",
@@ -54,6 +56,7 @@ export default [
       last: "Jones"
     },
     email: "katie.jones@example.com",
+    title: "Project Man",
     dob: "1985-10-17 13:55:10",
     registered: "2008-10-27 07:12:36",
     phone: "011-429-5904",
