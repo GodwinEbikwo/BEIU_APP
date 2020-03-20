@@ -15,6 +15,7 @@ import LoginScreen from "../Screens/LoginScreen";
 import SignupScreen from "../Screens/SignupScreen";
 import LoadingScreen from "../Screens/LoadingScreen";
 import IndexScreen from "../Screens/IndexScreen";
+import SettingsScreen from "../Screens/SettingsScreen";
 
 const activeColor = "#1db954";
 const inactiveColor = "#777E8B";
@@ -47,12 +48,12 @@ HomeStack.navigationOptions = ({ navigation }) => {
         name="home"
         type="feather"
         color={focused ? activeColor : inactiveColor}
-        size={27}
+        size={24}
         style={{ backgroundColor: "transparent" }}
       />
     ),
     tabBarOptions: {
-      showLabel: false,
+      showLabel: true,
       activeTintColor: activeColor,
       inactiveTintColor: inactiveColor,
       labelStyle: {
@@ -87,12 +88,12 @@ ExploreStack.navigationOptions = ({ navigation }) => {
       <Ionicons
         name="ios-search"
         color={focused ? activeColor : inactiveColor}
-        size={27}
+        size={24}
         style={{ backgroundColor: "transparent" }}
       />
     ),
     tabBarOptions: {
-      showLabel: false,
+      showLabel: true,
       activeTintColor: activeColor,
       inactiveTintColor: inactiveColor,
       labelStyle: {
@@ -125,16 +126,47 @@ InformationStack.navigationOptions = ({ navigation }) => {
     tabBarVisible,
     tabBarLabel: "Staff",
     tabBarIcon: ({ focused }) => (
-      <Icon
-        name="users"
-        type="font-awesome"
+      <Ionicons
+        name="ios-people"
         color={focused ? activeColor : inactiveColor}
-        size={27}
+        size={24}
         style={{ backgroundColor: "transparent" }}
       />
     ),
     tabBarOptions: {
-      showLabel: false,
+      showLabel: true,
+      activeTintColor: activeColor,
+      inactiveTintColor: inactiveColor,
+      labelStyle: {
+        fontFamily: fontText
+      },
+      style: {
+        height: Platform.OS === "ios" ? 50 : 55,
+        paddingTop: Platform.OS === "ios" ? 10 : 8,
+        backgroundColor: BackColor,
+        borderTopColor: "BackColor"
+      }
+    }
+  };
+};
+
+SettingsScreen.navigationOptions = ({ navigation }) => {
+  var tabBarVisible = true;
+
+  return {
+    tabBarVisible,
+    tabBarLabel: "Settings",
+    tabBarIcon: ({ focused }) => (
+      <Icon
+        name="sliders"
+        type="font-awesome"
+        color={focused ? activeColor : inactiveColor}
+        size={24}
+        style={{ backgroundColor: "transparent" }}
+      />
+    ),
+    tabBarOptions: {
+      showLabel: true,
       activeTintColor: activeColor,
       inactiveTintColor: inactiveColor,
       labelStyle: {
@@ -152,7 +184,8 @@ InformationStack.navigationOptions = ({ navigation }) => {
 const TabBarNavigator = createBottomTabNavigator({
   HomeStack,
   ExploreStack,
-  InformationStack
+  InformationStack,
+  SettingsScreen
 });
 
 const AuthStack = createStackNavigator({
