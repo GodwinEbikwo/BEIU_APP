@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     top: 0
+  },
+  container: {
+    backgroundColor: "#1c1c1e"
   }
 });
 

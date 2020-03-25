@@ -6,12 +6,13 @@ import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
 import TabBarNavigator from "./navigator/TabBarNavigator";
+import { ScrollContextProvider } from "./ScrollContext";
 
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
 
 const GRAPHCMS_API =
-  "https://api-euwest.graphcms.com/v1/ck2awrnng1bb801glckxdb81w/master";
+  "https://api-eu-central-1.graphcms.com/v2/ck7zz3z7d03us01zd3yc2ednj/master";
 
 const client = new ApolloClient({
   link: new HttpLink({ uri: GRAPHCMS_API }),
@@ -70,7 +71,9 @@ export default class App extends React.Component {
     }
     return (
       <ApolloProvider client={client}>
-        <TabBarNavigator />
+        <ScrollContextProvider>
+          <TabBarNavigator />
+        </ScrollContextProvider>
       </ApolloProvider>
     );
   }

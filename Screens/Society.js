@@ -3,20 +3,23 @@ import {
   Text,
   StyleSheet,
   View,
-  ScrollView,
   TouchableOpacity,
   SafeAreaView,
   ActivityIndicator,
   Image,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
-import { Query, graphql } from "react-apollo";
-import gql from "graphql-tag";
+import { Query } from "react-apollo";
 import styled from "styled-components/native";
 import SocietiesComponent from "../components/SocietiesComponent";
 import SearchBar from "../components/SearchBar";
 const { height, width } = Dimensions.get("window");
 import LottieView from "lottie-react-native";
+import { sostsQuery, allSocietysQuery } from "../components/Query";
+import Header from "../Header";
+
+import { ScrollView } from "../ScrollContext";
 
 const animation = require("../assets/animation/error.json");
 
@@ -27,18 +30,24 @@ class Society extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <View style={{ marginHorizontal: 20, marginTop: 10 }}>
-          <Text
-            style={{ fontFamily: "mont-bold", fontSize: 30, color: "#fff" }}
-          >
-            Search
-          </Text>
-        </View>
-        <View style={styles.titleBar}>
-          <SearchBar />
-        </View>
+        <Header title="Search" />
 
         <ScrollView showsVerticalScrollIndicator={false}>
+          <View
+            style={{
+              marginHorizontal: 20,
+              marginBottom: Platform.OS === "ios" ? 10 : -26
+            }}
+          >
+            <Text
+              style={{ fontFamily: "mont-bold", fontSize: 30, color: "#fff" }}
+            >
+              Search
+            </Text>
+          </View>
+          <View style={styles.titleBar}>
+            <SearchBar />
+          </View>
           <Query query={sostsQuery} pollInterval={500}>
             {({ loading, error, data }) => {
               if (loading)
@@ -144,58 +153,14 @@ class Society extends React.Component {
 
 export default Society;
 
-const sostsQuery = gql`
-  query societys {
-    societies {
-      id
-      slug
-      title
-      name
-      content {
-        html
-      }
-      color {
-        hex
-      }
-      imageOne {
-        id
-        handle
-      }
-    }
-  }
-`;
-
-const allSocietysQuery = gql`
-  query allSocietys {
-    allSocieties {
-      id
-      color {
-        hex
-      }
-      content {
-        raw
-        html
-      }
-      title
-      slug
-      name
-      imageOne {
-        id
-        handle
-      }
-    }
-  }
-`;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0a0a0a"
+    backgroundColor: "#111112"
   },
   titleBar: {
     paddingLeft: 5,
-    paddingBottom: 5,
-    marginTop: 5
+    paddingBottom: 5
   },
   caption: {
     color: "#393e46",

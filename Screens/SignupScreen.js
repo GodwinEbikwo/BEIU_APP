@@ -63,24 +63,33 @@ class SignupScreen extends React.Component {
     return (
       <DismissKeyboard>
         <KeyboardAvoidingView
-          style={{ flex: 1, backgroundColor: "#0a0a0a" }}
+          style={{ flex: 1, backgroundColor: "#111112" }}
           behavior="padding"
           enabled
         >
-          <SafeAreaView style={{ marginTop: 20, backgroundColor: "#0a0a0a" }}>
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-              <View style={styles.icon}>
-                <Ionicons name="md-arrow-back" size={26} color="black" />
-              </View>
-            </TouchableOpacity>
-
+          <SafeAreaView style={{ marginTop: 20, backgroundColor: "#111112" }}>
             <View
               style={{
-                marginHorizontal: 18,
-                marginTop: 15
+                marginHorizontal: 20,
+                marginTop: 40,
+                marginBottom: 10
               }}
             >
-              <Text style={styles.title}>Create an account</Text>
+              <View style={{ marginBottom: 30 }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.goBack();
+                  }}
+                >
+                  <Ionicons
+                    name="md-arrow-back"
+                    color="#fff"
+                    size={Platform.OS === "ios" ? 28 : 27}
+                  />
+                </TouchableOpacity>
+              </View>
+
+              <Text style={styles.title}>Create your account</Text>
             </View>
             <View style={{ marginTop: 15 }}>
               <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
@@ -144,7 +153,9 @@ class SignupScreen extends React.Component {
                     justifyContent: "center"
                   }}
                 >
-                  <Text style={{ color: "grey", fontSize: 15 }}>
+                  <Text
+                    style={{ color: "grey", fontSize: 15, fontWeight: "500" }}
+                  >
                     Have an account?{" "}
                     <Text
                       style={{
@@ -226,11 +237,12 @@ const styles = StyleSheet.create({
     color: "#fff"
   },
   labelText: {
-    marginBottom: 3,
+    marginBottom: 8,
     fontWeight: "500",
-    color: "#eeeeee",
-    fontFamily: regular,
-    fontSize: 17
+    color: "#AEAEB2",
+    fontWeight: "500",
+    fontSize: 15,
+    fontFamily: bold
   },
   icon: {
     marginTop: screen.height / 30,

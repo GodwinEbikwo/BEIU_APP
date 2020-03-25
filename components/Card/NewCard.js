@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Platform
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ProgressiveImage from "../ProgressiveImage";
 import { timeDifferenceForDate } from "../Time";
@@ -53,7 +59,7 @@ export default NewCard;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
-    marginHorizontal: 20,
+    marginHorizontal: 15,
     height: 400,
     width: "92%",
     marginBottom: 16,
@@ -108,13 +114,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 4,
     fontWeight: "600",
-    fontFamily: "mont-regular"
+    fontFamily: Platform.OS === "ios" ? "mont-regular" : null
   },
   timeText: {
     marginLeft: 3,
     marginTop: 7,
     color: "#AEAEB2",
     fontWeight: "400",
-    fontSize: 12
+    fontSize: 12,
+    fontWeight: "800"
   }
 });

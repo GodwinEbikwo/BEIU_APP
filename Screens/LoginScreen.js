@@ -34,22 +34,29 @@ class LoginScreen extends React.Component {
   state = {
     email: "",
     password: "",
-    errorMessage: null
+    errorMessage: null,
+    isLoading: false,
+    isSuccessful: false
   };
 
   handleLogin = () => {
     const { email, password } = this.state;
-
     if (email.split("@")[1] !== "buckingham.ac.uk") {
       Alert.alert("You can only sign in with a buckingham.ac.uk domain");
       return;
     }
-
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .catch(function(error) {
         Alert.alert("Error occured", error.message);
+      })
+      .then(response => {
+        this.setState({ isLoading: false });
+        if (response) {
+          this.setState({ isSuccessful: true });
+          Alert.alert("Congrats", "You've logged in successfully!");
+        }
       });
   };
 
@@ -57,27 +64,37 @@ class LoginScreen extends React.Component {
     return (
       <DismissKeyboard>
         <KeyboardAvoidingView
-          style={{ flex: 1, backgroundColor: "#0a0a0a" }}
+          style={{ flex: 1, backgroundColor: "#111112" }}
           behavior="padding"
           enabled
         >
-          <SafeAreaView style={{ marginTop: 18, backgroundColor: "#0a0a0a" }}>
+          <SafeAreaView style={{ marginTop: 18, backgroundColor: "#111112" }}>
             <View
               style={{
                 marginHorizontal: 20,
-                marginTop: 20
+                marginTop: 40,
+                marginBottom: 10
               }}
             >
-              <View
-                style={{
-                  marginTop: 10
-                }}
-              >
-                <Text style={styles.title}>Sign In</Text>
+              <View style={{ marginBottom: 30 }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    this.props.navigation.goBack();
+                  }}
+                >
+                  <Ionicons
+                    name="md-arrow-back"
+                    color="#fff"
+                    size={Platform.OS === "ios" ? 28 : 27}
+                  />
+                </TouchableOpacity>
               </View>
+
+              <Text style={styles.title}>Log in to your account</Text>
             </View>
+
             <View style={{ marginTop: 20 }}>
-              <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
+              <View style={styles.labelView}>
                 <Text style={styles.labelText}>Email</Text>
                 <TextInput
                   placeholder="johndoe@example.com"
@@ -90,7 +107,7 @@ class LoginScreen extends React.Component {
                 />
               </View>
 
-              <View style={{ marginHorizontal: 20, marginVertical: 5 }}>
+              <View style={styles.labelView}>
                 <Text style={styles.labelText}>Password</Text>
                 <TextInput
                   placeholder="password"
@@ -103,24 +120,30 @@ class LoginScreen extends React.Component {
                   enablesReturnKeyAutomatically={true}
                 />
               </View>
-
-              <View
-                style={{
-                  marginHorizontal: 25
-                }}
-              >
-                <Button
-                  title="LOGIN"
-                  onPress={this.handleLogin}
-                  color="#1db954"
-                />
+              <View style={{ marginHorizontal: 24, marginVertical: 5 }}>
+                <Text style={styles.forgotPasswordText}>Forgot Password ?</Text>
               </View>
+            </View>
+
+            <View
+              style={{
+                marginTop: screen.height / 4,
+                marginHorizontal: 25
+              }}
+            >
+              <Button
+                title="LOGIN"
+                onPress={this.handleLogin}
+                color="#1db954"
+              />
 
               <TouchableOpacity
                 onPress={() => this.props.navigation.navigate("SignUp")}
               >
                 <View style={styles.footer}>
-                  <Text style={{ color: "grey", fontSize: 15 }}>
+                  <Text
+                    style={{ color: "grey", fontSize: 15, fontWeight: "500" }}
+                  >
                     Don't have an account?{" "}
                     <Text style={styles.footerText}>Sign Up</Text>
                   </Text>
@@ -135,7 +158,13 @@ class LoginScreen extends React.Component {
                     justifyContent: "center"
                   }}
                 >
-                  <Text style={{ color: "grey", fontSize: 15 }}>
+                  <Text
+                    style={{
+                      color: "#1db954",
+                      fontSize: 15,
+                      fontWeight: "500"
+                    }}
+                  >
                     What is BEIU?
                   </Text>
                 </View>
@@ -169,18 +198,20 @@ const styles = StyleSheet.create({
     fontFamily: bold
   },
   textInput: {
-    padding: 15,
+    padding: 18,
     marginBottom: 3,
     borderRadius: 5,
     backgroundColor: "#2C2C2E",
     color: "#fff"
   },
+  labelView: { marginHorizontal: 20, marginVertical: 5 },
   labelText: {
-    marginBottom: 3,
+    marginBottom: 8,
     fontWeight: "500",
-    color: "#eeeeee",
-    fontFamily: regular,
-    fontSize: 17
+    color: "#AEAEB2",
+    fontWeight: "500",
+    fontSize: 15,
+    fontFamily: bold
   },
   footer: {
     marginTop: 15,
@@ -193,15 +224,11 @@ const styles = StyleSheet.create({
     color: "#33FF7A",
     fontFamily: regular
   },
-  icon: {
-    marginTop: screen.height / 15,
-    marginHorizontal: 20,
-    backgroundColor: "#eee",
-    opacity: 0.5,
-    borderRadius: 20,
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center"
+  forgotPasswordText: {
+    marginTop: 10,
+    color: "#1db954",
+    fontWeight: "400",
+    fontFamily: "mont-bold",
+    fontSize: 15
   }
 });

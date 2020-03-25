@@ -8,11 +8,10 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
-  Button
+  Button,
+  Dimensions
 } from "react-native";
-import gql from "graphql-tag";
-import { Query, graphql } from "react-apollo";
-import Card from "../components/Card";
+import { Query } from "react-apollo";
 import NewCard from "../components/Card/NewCard";
 import { SecondCard } from "../components/Card/SecondCard";
 import styled from "styled-components";
@@ -21,16 +20,15 @@ import Categories from "../components/Categories";
 import Reminders from "../components/Reminders";
 import LottieView from "lottie-react-native";
 import firebase from "../components/Firebase";
+import { postQuery, postTwoQuery, reminderQuery } from "../components/Query";
+import { BlurView } from "expo";
 
 const animation = require("../assets/animation/error.json");
+const { height, width } = Dimensions.get("window");
 
 class Main extends React.Component {
   static navigationOptions = {
     header: null
-  };
-
-  signOutUser = () => {
-    firebase.auth().signOut();
   };
 
   constructor(props) {
@@ -57,158 +55,88 @@ class Main extends React.Component {
           <View style={styles.titleBar}>
             <Moment />
           </View>
-          {/* 
-          <Button title="signOut" onPress={this.signOutUser} /> */}
 
-          <View style={{ marginLeft: 20 }}>
-            <Text style={[styles.subCaption, { color: "#33FF7A" }]}>
-              Daily news
-            </Text>
+          <View style={styles.newsView}>
+            <View style={{ marginTop: 10, marginBottom: 10 }}>
+              <Query query={reminderQuery} pollInterval={1000}>
+                {({ loading, error, data }) => {
+                  if (loading)
+                    return <ActivityIndicator size="small" color="#fff" />;
+                  if (error)
+                    return (
+                      <View style={styles.message}>
+                        <LottieView
+                          source={animation}
+                          autoPlay
+                          style={{ width: 150, height: 150 }}
+                          resizeMode="cover"
+                        />
+                        <Text
+                          style={{ fontFamily: "mont-regular", color: "grey" }}
+                        >
+                          An error occured
+                        </Text>
+                      </View>
+                    );
+                  return (
+                    <View>
+                      <View style={{ marginLeft: 15 }}>
+                        <Text style={[styles.subCaption, { color: "#33FF7A" }]}>
+                          Daily news
+                        </Text>
+                      </View>
+                      <Text style={styles.newsText}>
+                        <Text>Hi {this.state.displayName}</Text> you have an
+                        assigment due in week 3, here are a couple of tips and
+                        tricks to help you
+                      </Text>
+                      {data.reminders.map(reminder => (
+                        <TouchableOpacity
+                          activeOpacity={1}
+                          key={reminder.slug}
+                          onPress={() => {
+                            this.props.navigation.push("DocumentScreen", {
+                              screenPost: reminder
+                            });
+                          }}
+                        >
+                          <Reminders
+                            CoverImage={{
+                              uri: `https://media.graphcms.com/${reminder.coverImage.handle}`
+                            }}
+                            title={reminder.title}
+                            duration={reminder.duration}
+                            author={reminder.author}
+                            BlurImage={{
+                              uri: `https://media.graphcms.com/${reminder.blurImage.handle}`
+                            }}
+                          />
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  );
+                }}
+              </Query>
+            </View>
           </View>
-          <View
-            style={{
-              top: 5,
-              marginLeft: 20,
-              bottom: 5
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "pt-serif",
-                color: "#AEAEB2",
-                width: 350
-              }}
-            >
-              <Text>Hi {this.state.displayName}</Text> you have an assigment due
-              in week 3, here are a couple of tips and tricks to help you
-            </Text>
-          </View>
-          <View style={{ marginTop: 10, marginBottom: 10 }}>
-            <Reminders
-              logo={{
-                uri:
-                  "https://p15.f3.n0.cdn.getcloudapp.com/items/JruWlQvZ/composition-6.png?v=00cd303223ef89681b3f6e51662d36f4"
-              }}
-              title="How to reference your Article and aviod plaigariasm"
-              subtitle="5 min read"
-            />
-            <Reminders
-              logo={{
-                uri:
-                  "https://p15.f3.n0.cdn.getcloudapp.com/items/BluB4DD9/rae-tian-RVF0ngUujks-unsplash.jpg?v=dc8c4db300a4f1f35381e58a02ddd29f"
-              }}
-              title="24 ways to ace an your essay"
-              subtitle="7 min read"
-            />
-          </View>
 
-          <View style={{ marginLeft: 20, marginBottom: 10 }}>
-            <Text style={[styles.subCaption, { color: "#eee" }]}>
-              Categories
-            </Text>
-          </View>
-
-          <NewCard
-            title="A stronger marriage and a healtheir lifestyle"
-            subtitle="beiu"
-            author="Godwin"
-            paragraph="If you are using link the library react-native-localize manually."
-            image={{
-              uri:
-                "https://p15.f3.n0.cdn.getcloudapp.com/items/o0uDeQre/martin-katler-YZQe6sGM9IQ-unsplash.jpg?v=71c05bdbde1067438e0fa12bc9a3a4e7"
-            }}
-          />
-
-          <SecondCard
-            image={{
-              uri:
-                "https://p15.f3.n0.cdn.getcloudapp.com/items/BluBWLw4/jordan-whitfield-3cNc1U7nJcs-unsplash.jpg?v=03f873aee8f537881768c93023ee0668"
-            }}
-            subtitle="BEIU"
-            title="Yesskirr"
-            paragraph="10 millions, cocain white as Tee"
-            logo={{
-              uri:
-                "https://f.v1.n0.cdn.getcloudapp.com/items/2I0E1m2n0520460J1U1J/beautiful-beauty-blouse-1036623.jpg"
-            }}
-          />
-          {/* <NewCard
-            title="Climate Change"
-            subtitle="beiu"
-            author="Alwxander"
-            paragraph="If you manually."
-            image={{
-              uri:
-                "https://p15.f3.n0.cdn.getcloudapp.com/items/GGuNWAOr/the-honest-company-oqmIM9bkAWQ-unsplash.jpg?v=a4f04221a47ea679cec4cbe13de8498e"
-            }}
-          /> */}
-
-          <Query query={postsQuery} pollInterval={500}>
+          <Query query={postQuery} pollInterval={500}>
             {({ loading, error, data }) => {
               if (loading)
                 return <ActivityIndicator size="small" color="#000" />;
-              if (error)
-                return (
-                  <View style={styles.message}>
-                    <LottieView
-                      source={animation}
-                      autoPlay
-                      style={{ width: 150, height: 150 }}
-                      resizeMode="cover"
-                    />
-                    <Text style={{ fontFamily: "mont-regular", color: "grey" }}>
-                      An error occured
-                    </Text>
-                  </View>
-                );
+              if (error) return <View style={styles.message}></View>;
               return (
                 <CardsContainer>
-                  <View style={{ marginLeft: 20 }}>
-                    <Text style={[styles.subCaption, { color: "#222831" }]}>
-                      Categories
-                    </Text>
-                  </View>
                   <View
-                    style={{ height: 130, marginTop: 10, marginBottom: 15 }}
+                    style={{ marginLeft: 15, marginBottom: 10, marginTop: 20 }}
                   >
-                    <ScrollView
-                      horizontal={true}
-                      showsHorizontalScrollIndicator={false}
-                    >
-                      <Categories
-                        imageUri={{
-                          uri:
-                            "https://p15.f3.n0.cdn.getcloudapp.com/items/eDuxzeQY/meditating.png?v=4f3a6f057ffc632b2676ce80d40f3e06"
-                        }}
-                        name="Godwin"
-                        color="#00adb5"
-                      />
-                      <Categories
-                        imageUri={{
-                          uri:
-                            "https://p15.f3.n0.cdn.getcloudapp.com/items/2NuBkWg6/open-doodles-reading.png?v=fc5154b1ff996730877f73b833cfd34a"
-                        }}
-                        name="How to get away with murder haha"
-                        color="#5f85db"
-                      />
-                      <Categories
-                        imageUri={{
-                          uri:
-                            "https://p15.f3.n0.cdn.getcloudapp.com/items/WnuN1XRW/doodle+resiex.png?v=bde0f2011d2f74a6520b7d123e4f2273"
-                        }}
-                        name="Just submit your assigmnet man"
-                        color="#927fbf"
-                      />
-                    </ScrollView>
-                  </View>
-
-                  <View style={{ marginLeft: 20 }}>
-                    <Text style={[styles.subCaption, { color: "#3282b8" }]}>
-                      Recommended for you
+                    <Text style={[styles.subCaption, { color: "#eee" }]}>
+                      Categories
                     </Text>
                   </View>
                   {data.posts.map(post => (
                     <TouchableOpacity
+                      activeOpacity={1}
                       key={post.slug}
                       onPress={() => {
                         this.props.navigation.push("mainPostScreen", {
@@ -216,26 +144,61 @@ class Main extends React.Component {
                         });
                       }}
                     >
-                      <Card
+                      <NewCard
                         title={post.title}
-                        logo={{
-                          uri: `https://media.graphcms.com/${post.authorsImage.handle}`
-                        }}
                         image={{
                           uri: `https://media.graphcms.com/${post.coverImage.handle}`
                         }}
                         blur={{
                           uri: `https://media.graphcms.com/${post.blurImage.handle}`
                         }}
-                        name={post.name}
-                        caption={post.tags}
+                        subtitle={post.subTitle}
+                        author={post.author.name}
                         dateAndTime={post.dateAndTime}
                         content={post.content}
-                        // thumbnailColor={post.thumbnailColor.hex}
                       />
                     </TouchableOpacity>
                   ))}
                 </CardsContainer>
+              );
+            }}
+          </Query>
+          <Query query={postTwoQuery} pollInterval={500}>
+            {({ loading, error, data }) => {
+              if (loading)
+                return <ActivityIndicator size="small" color="#000" />;
+              if (error) return <View></View>;
+
+              return (
+                <View>
+                  {data.sosts.map(sost => (
+                    <TouchableOpacity
+                      activeOpacity={1}
+                      key={sost.slug}
+                      onPress={() => {
+                        this.props.navigation.push("mainPostScreen", {
+                          screenPost: sost
+                        });
+                      }}
+                    >
+                      <SecondCard
+                        image={{
+                          uri: `https://media.graphcms.com/${sost.coverImage.handle}`
+                        }}
+                        blur={{
+                          uri: `https://media.graphcms.com/${sost.blurImage.handle}`
+                        }}
+                        subtitle={sost.subTitle}
+                        title={sost.title}
+                        author={sost.author.name}
+                        dateAndTime={sost.dateAndTime}
+                        logo={{
+                          uri: `https://media.graphcms.com/${sost.author.avatar.handle}`
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </View>
               );
             }}
           </Query>
@@ -245,45 +208,10 @@ class Main extends React.Component {
   }
 }
 
-const postsQuery = gql`
-  query posts {
-    posts(orderBy: dateAndTime_DESC) {
-      id
-      slug
-      blurImage {
-        id
-        handle
-      }
-      content {
-        html
-      }
-      title
-      tags
-      dateAndTime
-      coverImage {
-        id
-        handle
-      }
-      thumbnailColor {
-        hex
-      }
-      authorsImage {
-        id
-        handle
-      }
-      name
-    }
-    postsConnection {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
-
 export default Main;
 
-const bColour = "#0a0a0a";
+const bColour = "#111112";
+// "#0a0a0a";
 const bTextColour = "#393e46";
 
 const styles = StyleSheet.create({
@@ -295,9 +223,9 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingLeft: 5,
     paddingBottom: 5,
-    marginBottom: 10
+    marginTop: 10
     // borderBottomWidth: 0.3,
-    // borderBottomColor: "#A4B0BD"
+    // borderBottomColor: "#1c1c1e"
   },
   subCaption: {
     fontSize: 15,
@@ -307,6 +235,19 @@ const styles = StyleSheet.create({
   message: {
     justifyContent: "center",
     alignItems: "center"
+  },
+  newsText: {
+    paddingTop: 10,
+    marginBottom: 7,
+    fontFamily: "pt-serif",
+    color: "#AEAEB2",
+    width: 350,
+    marginLeft: 15
+  },
+  newsView: {
+    top: 10,
+    bottom: 5,
+    backgroundColor: "#0a0a0a"
   }
 });
 

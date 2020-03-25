@@ -6,8 +6,7 @@ import {
   View,
   Dimensions,
   TouchableOpacity,
-  Platform,
-  StatusBar
+  Platform
 } from "react-native";
 import HTMLView from "react-native-htmlview";
 import ProgressiveImage from "../components/ProgressiveImage";
@@ -26,9 +25,8 @@ class Post extends React.Component {
       <View style={styles.container}>
         <ScrollView
           showsVerticalScrollIndicator={false}
-          style={{ backgroundColor: "#f4f4f6" }}
+          style={{ backgroundColor: "#1C1C1E" }}
         >
-          <StatusBar hidden />
           <View style={styles.cover}>
             <ProgressiveImage
               thumbnailSource={{
@@ -60,11 +58,9 @@ class Post extends React.Component {
           >
             <View style={styles.closeView}>
               <Ionicons
-                name={
-                  Platform.OS === "ios" ? "ios-close" : "ios-arrow-round-back"
-                }
+                name={Platform.OS === "ios" ? "ios-close" : "md-close"}
                 color="#000"
-                size={Platform.OS === "ios" ? 34 : 36}
+                size={Platform.OS === "ios" ? 34 : 22}
                 style={{
                   marginTop: Platform.OS === "ios" ? -2 : 0
                 }}
@@ -84,7 +80,7 @@ const normalText = "pt-serif";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f4f4f6"
+    backgroundColor: "#1C1C1E"
   },
   cover: {
     height: 525,
@@ -147,11 +143,6 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     justifyContent: "center",
     alignItems: "center"
-  },
-  photo: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginBottom: 65
   }
 });
 
@@ -160,14 +151,14 @@ const htmlStyles = StyleSheet.create({
     paddingTop: 5,
     fontSize: 16,
     paddingLeft: 16,
-    lineHeight: 24,
     paddingRight: 5,
-    fontFamily: normalText,
-    color: "#060508",
-    lineHeight: 30
+    color: "#AEAEB2",
+    lineHeight: 30,
+    fontWeight: "500",
+    backgroundColor: "#111112"
   },
   a: {
-    color: "#64ffda",
+    color: "#1db954",
     fontWeight: "300",
     textDecorationLine: "underline"
   },

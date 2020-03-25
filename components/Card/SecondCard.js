@@ -13,7 +13,7 @@ export const SecondCard = props => {
           </Text>
           <Text style={[styles.title, { color: "#fff" }]}>{props.title}</Text>
         </View>
-        <BlurView intensity={95} style={styles.footerBlur}>
+        <BlurView intensity={100} style={styles.footerBlur}>
           <Image
             source={props.logo}
             style={{ width: 54, height: 54, borderRadius: 11 }}
@@ -43,7 +43,7 @@ export default SecondCard;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
-    marginHorizontal: 20,
+    marginHorizontal: 15,
     height: 400,
     width: "92%",
     marginBottom: 16,
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     marginTop: 7,
     color: "#fff",
     fontWeight: "400",
-    fontSize: 15
+    fontSize: 15,
+    fontWeight: "800"
   }
 });

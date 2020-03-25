@@ -16,19 +16,38 @@ import SignupScreen from "../Screens/SignupScreen";
 import LoadingScreen from "../Screens/LoadingScreen";
 import IndexScreen from "../Screens/IndexScreen";
 import SettingsScreen from "../Screens/SettingsScreen";
+import TestScreen from "../Screens/TestScreen";
+import VideoScreen from "../Screens/VideoScreen";
+import Document from "../Document";
 
 const activeColor = "#1db954";
 const inactiveColor = "#777E8B";
-const BackColor = "#111112";
+const BackColor = "#1C1C1E";
+// "#111112";
 const fontText = "mont-regular";
 
 const HomeStack = createStackNavigator(
   {
     MainScreen: Main,
-    mainPostScreen: Post
+    mainPostScreen: Post,
+    TestScreen,
+    Video: VideoScreen,
+    DocumentScreen: Document
   },
   {
-    initialRouteName: "MainScreen"
+    initialRouteName: "MainScreen",
+    defaultNavigationOptions: {
+      title: "Home",
+      headerStyle: {
+        backgroundColor: "#1C1C1E",
+        borderBottomColor: "#1C1C1E"
+      },
+      headerTintColor: "#fff",
+      headerTitleStyle: {
+        fontWeight: "bold",
+        fontFamily: "mont-bold"
+      }
+    }
   }
 );
 
@@ -36,7 +55,11 @@ HomeStack.navigationOptions = ({ navigation }) => {
   var tabBarVisible = true;
   const routeName = navigation.state.routes[navigation.state.index].routeName;
 
-  if (routeName == "mainPostScreen" || routeName == "Staff") {
+  if (
+    routeName == "mainPostScreen" ||
+    routeName == "TestScreen" ||
+    routeName == "DocumentScreen"
+  ) {
     tabBarVisible = false;
   }
 
@@ -150,8 +173,27 @@ InformationStack.navigationOptions = ({ navigation }) => {
   };
 };
 
-SettingsScreen.navigationOptions = ({ navigation }) => {
+const SettingsScreenStack = createStackNavigator(
+  {
+    Document,
+    SettingsScreen
+  },
+  {
+    initialRouteName: "SettingsScreen",
+    defaultNavigationOptions: {
+      header: null
+    }
+  }
+);
+
+SettingsScreenStack.navigationOptions = ({ navigation }) => {
   var tabBarVisible = true;
+
+  const routeName = navigation.state.routes[navigation.state.index].routeName;
+
+  if (routeName == "" || routeName == "" || routeName == "") {
+    tabBarVisible = false;
+  }
 
   return {
     tabBarVisible,
@@ -181,11 +223,12 @@ SettingsScreen.navigationOptions = ({ navigation }) => {
     }
   };
 };
+
 const TabBarNavigator = createBottomTabNavigator({
   HomeStack,
   ExploreStack,
   InformationStack,
-  SettingsScreen
+  SettingsScreenStack
 });
 
 const AuthStack = createStackNavigator({

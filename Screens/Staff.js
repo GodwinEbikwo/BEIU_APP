@@ -1,22 +1,34 @@
 import React from "react";
 import {
-  TouchableOpacity,
-  ScrollView,
-  View,
   StyleSheet,
-  Text,
+  View,
   Image,
   Dimensions,
+  TouchableOpacity,
   Platform,
-  Modal
+  Modal,
+  SafeAreaView
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { Button, Item } from "native-base";
+import ProgressiveImage from "../components/ProgressiveImage";
 import { Icon } from "react-native-elements";
-import BottomSheet from "reanimated-bottom-sheet";
-import Swiper from "react-native-swiper";
+import Header from "../Header";
+import { Text } from "../Text";
 import { Linking } from "expo";
+import { ScrollView } from "../ScrollContext";
 import { BlurView } from "expo-blur";
+const screen = Dimensions.get("window");
+
+const ModalText = props => {
+  return (
+    <View style={{ flexDirection: "row", marginHorizontal: 20 }}>
+      <View style={{ marginTop: 5 }}>
+        <Icon name={props.name} type={props.type} size={18} color="grey" />
+      </View>
+
+      <Text style={styles.modalItemText}>{props.modalItem}</Text>
+    </View>
+  );
+};
 
 class Staff extends React.Component {
   static navigationOptions = {
@@ -27,155 +39,90 @@ class Staff extends React.Component {
     modalVisible: false
   };
 
-  setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+  toogleContactPage() {
+    this.setState({ modalVisible: !this.state.modalVisible });
   }
 
   _handlePress = () => {
     Linking.openURL("https://wa.me/447405042014");
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeIndex: 0
-    };
-  }
-
-  segmentClicked(index) {
-    this.setState({
-      activeIndex: index
-    });
-  }
-
-  renderSection = () => {
-    if (this.state.activeIndex == 0) {
-      return (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 5
-          }}
-        >
-          <Text style={styles.renderSection}>
-            In the midst of the most serious financial upheaval since the Great
-            Depression, legendary financier George Soros explores the origins of
-            the crisis and its implications for the future. Soros, whose breadth
-            of experience in financial markets is unrivaled, places the current
-            crisis in the context of decades of study of how individuals and
-            institutions handle the boom and bust cycles that now dominate
-            global economic activity. “This is the worst financial crisis since
-            the 1930s,” In this special edition of the classic investment book,
-            The Alchemy of Finance, George Soros presents a theoretical and
-            practical account of current financial trends and a new paradigm by
-            which to understand the financial market today. This edition's
-            expanded and revised Introduction details Soros's innovative
-            investment practices along with his views of the world and world
-            order. George Soros compares and contrasts open and closed societies
-            and illustrates the superiority of the open society system. He
-            offers solutions for the then crumbling Soviet Empire to integrate
-            into the free world. George Soros has done more for open societies
-            than any other private citizen in the world. In Underwriting
-            Democracy he describes his experiences helping to bring about
-            democratic change in Eastern Europe—experiences that are especially
-            relevant now that our country has begun to intervene (though in an
-            entirely different way than Soros) to create functioning
-            democracies.
-          </Text>
-        </View>
-      );
-    }
-  };
-
   render() {
     const { navigation } = this.props;
     const screenPost = navigation.getParam("screenPost");
     return (
-      <View style={styles.container}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Swiper
-            height={480}
-            horizontal={false}
-            dotColor="#606470"
-            activeDotColor="#fff"
-          >
-            <View style={styles.cover}>
-              <Image
-                source={{
-                  uri: screenPost.picture.large,
-                  cache: "only-if-cached"
-                }}
-                style={styles.image}
-              />
+      <SafeAreaView style={styles.container}>
+        <Header
+          title={`${screenPost.name.first} ${screenPost.name.last}`}
+          headerLeft={
+            <View style={styles.headerLeftView}>
+              <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
+                <Icon
+                  name="arrow-left"
+                  type="feather"
+                  color="#fff"
+                  size={24}
+                  style={{
+                    backgroundColor: "transparent"
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          }
+          headerRight={
+            <View style={styles.headerRightView}>
+              <TouchableOpacity onPress={() => this.toogleContactPage()}>
+                <Icon
+                  name="more-horizontal"
+                  type="feather"
+                  color="#fff"
+                  size={24}
+                  style={{
+                    backgroundColor: "transparent"
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
+          }
+        />
 
-              <Text style={styles.caption}>BEIU</Text>
-              <Text
-                style={styles.title}
-              >{`${screenPost.name.first} ${screenPost.name.last}`}</Text>
-            </View>
-            <View style={styles.cover}>
-              <Image
-                source={{
-                  uri:
-                    "http://f.cl.ly/items/1N1l130d1e333E1z3T3G/NigerianSociety3.jpg"
-                }}
-                style={styles.image}
-              />
-            </View>
-          </Swiper>
-
-          <View>
-            <View style={styles.tabs}>
-              <Button
-                onPress={() => this.segmentClicked(0)}
-                transparent
-                active={this.state.activeIndex == 0}
-              >
-                <Text
-                  style={[
-                    {
-                      fontSize: 18,
-                      color: "white",
-                      fontFamily: normalText
-                    },
-                    this.state.activeIndex == 0 ? {} : { color: "grey" }
-                  ]}
-                >
-                  About
-                </Text>
-              </Button>
-            </View>
-            {this.renderSection()}
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={{ marginTop: Platform.OS === "ios" ? null : -15 }}>
+            <Text style={styles.tag}>BEIU</Text>
+            <Text style={styles.title}>
+              {`${screenPost.name.first} ${screenPost.name.last}`}
+            </Text>
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              this.props.navigation.goBack();
-            }}
-            style={{
-              position: "absolute",
-              top: Platform.OS === "ios" ? 47 : 36,
-              left: 8
-            }}
-          >
-            <View style={styles.closeView}>
-              <Ionicons
-                name="md-arrow-back"
-                size={24}
-                color="#000"
-                style={{ marginTop: 2 }}
-              />
-            </View>
-          </TouchableOpacity>
+          <View style={styles.cover}>
+            <ProgressiveImage
+              source={{
+                uri: screenPost.picture.large
+              }}
+              style={styles.image}
+              alt={screenPost.title}
+            />
+          </View>
+
+          <Text style={styles.paragraph}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+            auctor nisl ut sapien blandit congue. Donec vehicula nulla augue, ac
+            pretium justo malesuada eget. Donec placerat, nulla in convallis
+            consectetur, est erat ornare ex, non lobortis augue risus eu lectus.
+            Curabitur egestas ut magna vitae vehicula. Quisque non semper felis.
+            Cras dictum nisl sed magna tempus lobortis. Nunc arcu ligula,
+            dignissim nec tincidunt vel, eleifend et est. Vulputate. Aenean
+            augue eros, viverra egestas tristique at, aliquam et lacus. Etiam
+            suscipit varius ligula, at tempus lectus pellentesque ac. Donec
+            maximus euismod velit ultrices imperdiet. Suspendisse sem tellus,
+            accumsan quis faucibus sed, tempus id urna. Phasellus id mauris
+            aliquam, elementum mi eu, vestibulum nisl. Sed quis fringilla lorem.
+          </Text>
 
           <Modal
             animationType="slide"
-            transparent={true}
+            transparent={Platform.OS === "ios" ? true : false}
             visible={this.state.modalVisible}
-            onRequestClose={() => {
-              Alert.alert("Modal has been closed.");
-            }}
+            onRequestClose={() => this.toogleContactPage()}
           >
             <BlurView
               tint="dark"
@@ -187,236 +134,181 @@ class Staff extends React.Component {
               <View
                 style={{
                   flex: 1,
-                  justifyContent: "center",
-                  marginTop: screen.height / 4,
-                  marginHorizontal: screen.width / 4
+                  backgroundColor: Platform.OS === "ios" ? null : "#111112"
                 }}
               >
-                <Image
-                  source={{
-                    uri:
-                      "http://f.cl.ly/items/1N1l130d1e333E1z3T3G/NigerianSociety3.jpg"
-                  }}
-                  style={{ width: 200, height: 200 }}
-                />
-              </View>
-              <View style={{ marginHorizontal: screen.width / 5 }}>
-                <Text
-                  style={{
-                    color: "#AEAEB2",
-                    fontFamily: "mont-regular",
-                    width: 350
-                  }}
+                <View style={styles.imageView}>
+                  <Image
+                    source={{
+                      uri: screenPost.picture.large
+                    }}
+                    style={{ width: 200, height: 200, borderRadius: 5 }}
+                  />
+                </View>
+                <View
+                  style={{ marginHorizontal: screen.width / 4, marginTop: -5 }}
                 >
-                  Say hi 👋, don't forget to be polite 😁
-                </Text>
-              </View>
+                  <Text style={styles.politeText}>Say hello &</Text>
+                  <Text style={styles.politeText}>
+                    Don't forget to be polite
+                  </Text>
+                </View>
 
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "flex-end",
-                  marginBottom: screen.height / 4.6
-                }}
-              >
-                <Text
-                  style={{
-                    marginHorizontal: 17,
-                    padding: 20,
-                    fontFamily: normalText,
-                    fontSize: 23,
-                    color: "#fff"
-                  }}
-                >
-                  Contact {`${screenPost.name.first} ${screenPost.name.last}`}
-                </Text>
+                <View style={styles.staffNameView}>
+                  <Text style={styles.staffName}>
+                    Contact {`${screenPost.name.first} ${screenPost.name.last}`}
+                  </Text>
 
-                <TouchableOpacity onPress={this._handlePress}>
-                  <View style={styles.panelButton}>
-                    <ModalText name="phone-call" modalItem="WhatsApp" />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => Linking.openURL(`mailto:${screenPost.email}`)}
-                >
-                  <View style={styles.panelButton}>
-                    <ModalText name="mail" modalItem="Email" />
+                  <TouchableOpacity onPress={this._handlePress}>
+                    <View style={styles.panelButton}>
+                      <ModalText
+                        name="whatsapp"
+                        type="font-awesome"
+                        modalItem="WhatsApp"
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      Linking.openURL(`mailto:${screenPost.email}`)
+                    }
+                  >
+                    <View style={styles.panelButton}>
+                      <ModalText name="mail" type="feather" modalItem="Email" />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity onPress={() => this.toogleContactPage()}>
+                  <View
+                    style={{
+                      justifyContent: "center",
+                      alignItems: "center",
+                      marginBottom: screen.width / 7
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "white",
+                        fontWeight: "600",
+                        fontSize: 15
+                      }}
+                    >
+                      Close
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </View>
             </BlurView>
-            <TouchableOpacity
-              onPress={() => {
-                this.setModalVisible(!this.state.modalVisible);
-              }}
-              style={styles.topButton}
-            >
-              <View>
-                <Icon
-                  name="x"
-                  type="feather"
-                  color="#fff"
-                  size={24}
-                  style={{
-                    backgroundColor: "transparent"
-                  }}
-                />
-              </View>
-            </TouchableOpacity>
           </Modal>
-
-          <TouchableOpacity
-            onPress={() => {
-              this.setModalVisible(true);
-            }}
-            style={{
-              position: "absolute",
-              top: Platform.OS === "ios" ? 47 : 36,
-              right: 8
-            }}
-          >
-            <View style={styles.closeView}>
-              <Icon
-                name="more-horizontal"
-                type="feather"
-                color="#000"
-                size={24}
-                style={{
-                  backgroundColor: "transparent"
-                }}
-              />
-            </View>
-          </TouchableOpacity>
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
-const ModalText = props => {
-  return (
-    <View style={{ flexDirection: "row", marginHorizontal: 20 }}>
-      <View style={{ marginTop: 5 }}>
-        <Icon name={props.name} type="feather" size={18} color="#1db954" />
-      </View>
-
-      <Text style={styles.modalItemText}>{props.modalItem}</Text>
-    </View>
-  );
-};
-
 export default Staff;
-const screen = Dimensions.get("window");
-const normalText = "mont-bold";
-const smallText = "pt-serif";
+const boldText = "mont-bold";
+const normalText = "pt-serif";
+
 const styles = StyleSheet.create({
-  cover: {
-    flex: 1,
-    position: "relative",
-    backgroundColor: "#f4f4f4"
-  },
   container: {
-    backgroundColor: "#1C1C1E"
+    flex: 1,
+    backgroundColor: "#111112"
   },
-  image: {
-    width: "100%",
-    height: "100%",
+  scrollContainer: {
+    alignContent: "flex-start",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    paddingTop: Platform.OS === "ios" ? null : 16,
+    marginBottom: 50,
+    backgroundColor: "#111112"
+  },
+  cover: {
+    height: 375,
+    marginTop: Platform.OS === "ios" ? 60 : 45,
+    width: "100%"
+  },
+  tag: {
+    fontSize: 14,
+    fontWeight: "400",
+    padding: 10,
+    fontFamily: normalText,
+    color: "#efe",
+    width: 150,
     position: "absolute"
   },
   title: {
-    fontSize: 24,
-    color: "#f1f3f4",
-    fontWeight: "bold",
-    width: 250,
-    position: "absolute",
-    top: Platform.OS === "ios" ? 100 : 95,
-    left: 12,
-    fontFamily: normalText
-  },
-  caption: {
-    fontSize: 14,
-    color: "#f1f3f4",
-    fontWeight: "bold",
-    position: "absolute",
-    top: Platform.OS === "ios" ? 85 : 75,
-    left: 12,
-    fontFamily: smallText
-  },
-  closeView: {
-    width: 32,
-    height: 32,
-    backgroundColor: "#f4f4f4",
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
-    opacity: 0.6
-  },
-  bottomSheetView: {
-    width: 42,
-    height: 26,
-    borderRadius: 4,
-    backgroundColor: "#f1f3f4",
-    justifyContent: "center",
-    alignItems: "center",
-    opacity: 0.6
-  },
-  tabs: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderTopColor: "#eae5e5",
-    padding: 4,
-    backgroundColor: "#2C2C2E",
-    borderRadius: 65,
-    width: "50%",
-    marginHorizontal: screen.width / 4,
-    marginTop: -30,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 7
-    },
-    shadowOpacity: 0.16,
-    shadowRadius: 9.11,
-    elevation: 30
-  },
-  renderSection: {
+    fontSize: 20,
+    fontWeight: "500",
+    padding: 10,
+    fontFamily: boldText,
     color: "#fff",
-    fontFamily: smallText,
-    padding: 16,
-    lineHeight: 28,
-    fontSize: 16
+    width: 270,
+    position: "absolute",
+    top: 15
   },
-  panelTitle: {
-    fontSize: 27,
-    height: 35,
-    color: "#f3f4f5"
-  },
-  panelSubtitle: {
+  subtitle: {
     fontSize: 14,
+    fontWeight: "400",
+    padding: 16,
+    fontFamily: normalText,
+    color: "#060508"
+  },
+  headerLeftView: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    left: 12,
+    marginBottom: 5
+  },
+  headerRightView: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    right: 12,
+    marginBottom: 5
+  },
+  image: {
+    width: "100%",
+    height: "100%"
+  },
+  imageView: {
+    flex: 1,
+    justifyContent: "center",
+    marginTop: screen.height / 3,
+    marginHorizontal: screen.width / 4
+  },
+  politeText: {
+    textAlign: "center",
     color: "#AEAEB2",
-    height: 30,
-    marginBottom: 10,
-    fontFamily: smallText
+    fontWeight: "400",
+    fontFamily: boldText,
+    top: 5,
+    fontSize: 12
+  },
+  staffNameView: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom:
+      Platform.OS === "ios" ? screen.height / 13 : screen.height / 15
+  },
+  staffName: {
+    marginHorizontal: 17,
+    padding: 20,
+    fontFamily: boldText,
+    fontSize: 23,
+    color: "#fff"
   },
   panelButton: {
     padding: 15,
-    // borderRadius: 10,
-    // backgroundColor: "#2C2C2E",
-    // alignItems: "center",
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: "#2C2C2E",
     marginVertical: 5
-  },
-  topButton: {
-    position: "absolute",
-    top: Platform.OS === "ios" ? 50 : 40,
-    right: 10,
-    backgroundColor: "#2C2C2E",
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20
   },
   modalItemText: {
     color: "#e3e3e3",
@@ -425,5 +317,13 @@ const styles = StyleSheet.create({
     fontFamily: "mont-regular",
     marginHorizontal: 7,
     marginTop: 5
+  },
+  paragraph: {
+    marginVertical: 5,
+    fontSize: 16,
+    fontWeight: "500",
+    lineHeight: 24,
+    color: "#AEAEB2",
+    padding: 5
   }
 });

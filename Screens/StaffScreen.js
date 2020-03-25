@@ -88,7 +88,8 @@ class StaffScreen extends React.Component {
       <View
         style={{
           flex: 1,
-          marginBottom: 5
+          marginBottom: 5,
+          marginTop: Platform.OS === "ios" ? null : 30
         }}
       >
         <View style={styles.searchBar}>
@@ -117,20 +118,6 @@ class StaffScreen extends React.Component {
     );
   };
 
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-    return (
-      <View
-        style={{
-          paddingVertical: 20,
-          borderTopWidth: 1,
-          borderColor: "#CED0CE"
-        }}
-      >
-        <ActivityIndicator animating size="large" />
-      </View>
-    );
-  };
   render() {
     return (
       <DismissKeyboard>
@@ -139,7 +126,6 @@ class StaffScreen extends React.Component {
             data={this.state.data}
             keyExtractor={item => item.email}
             ItemSeparatorComponent={this.renderSeparator}
-            ListFooterComponent={this.renderFooter}
             ListHeaderComponent={this.renderHeader}
             renderItem={({ item }) => (
               <TouchableOpacity
@@ -157,7 +143,7 @@ class StaffScreen extends React.Component {
                     leftAvatar={{ source: { uri: item.picture.large } }}
                     containerStyle={{
                       borderBottomWidth: 0,
-                      backgroundColor: "#1C1C1E"
+                      backgroundColor: "#111112"
                     }}
                     titleStyle={styles.title}
                     subtitleStyle={styles.textSubtitle}

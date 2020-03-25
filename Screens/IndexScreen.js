@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, StyleSheet, View, SafeAreaView, Dimensions } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  Dimensions,
+  Image
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Button from "../components/Button";
 const screen = Dimensions.get("window");
@@ -22,16 +29,16 @@ class IndexScreen extends React.Component {
   //   this.timeOut = setInterval(() => {
   //     let currentColourIndex = this.state.colorIndex;
   //     this.setState({ colorIndex: currentColourIndex + 1 });
-  //   }, 1000);
+  //   }, 1500);
   // }
 
   // componentWillUnmount() {
   //   clearInterval(this.timeout);
   // }
   render() {
-    // let textThatChanges = textColor[this.state.colorIndex % textColor.length];
+    let textThatChanges = textColor[this.state.colorIndex % textColor.length];
     return (
-      <SafeAreaView style={{ flex: 1, backgroundColor: "#0a0a0a" }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "#111112" }}>
         <View style={styles.container}>
           <Text allowFontScaling={true} style={styles.heading}>
             BEI
@@ -93,20 +100,20 @@ const styles = StyleSheet.create({
     marginTop: 15,
     color: "#AEAEB2",
     fontWeight: "500",
-    fontSize: 17,
+    fontSize: 15,
     width: 350,
     textAlign: "center",
     padding: 5,
-    fontFamily: regular
+    fontWeight: "500"
   },
   thirdheading: {
     marginTop: 20,
     color: "#AEAEB2",
     fontWeight: "500",
-    fontSize: 17,
+    fontSize: 15,
     width: 350,
     textAlign: "center",
-    fontFamily: regular
+    fontWeight: "500"
   },
   button: {
     marginTop: screen.height / 8,

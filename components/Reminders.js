@@ -10,7 +10,7 @@ const Reminders = props => {
     <View style={[styles.main, { backgroundColor: "#242426" }]}>
       <View style={styles.content}>
         <ProgressiveImage
-          source={props.logo}
+          source={props.CoverImage}
           style={{ width: 55, height: 55, borderRadius: 9 }}
         />
         <View
@@ -29,7 +29,7 @@ const Reminders = props => {
             </View>
 
             <Text numberOfLines={2} style={styles.subtitle}>
-              {props.subtitle}
+              {props.duration}
             </Text>
           </View>
         </View>
@@ -55,7 +55,8 @@ const regular = "pt-serif";
 const styles = StyleSheet.create({
   main: {
     marginTop: 5,
-    marginHorizontal: 20,
+    marginBottom: 7,
+    marginHorizontal: 15,
     width: "92%",
     borderRadius: 4
   },
