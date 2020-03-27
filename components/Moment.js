@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, Platform } from "react-native";
-import firebase from "../components/Firebase";
+import firebase from "./Firebase";
 import moment from "moment";
 
 class Moment extends React.Component {

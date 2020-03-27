@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { SafeAreaView, Platform, Dimensions, View } from "react-native";
+import React from "react";
+import { SafeAreaView, View } from "react-native";
 import { Text } from "../Text";
 import Header from "../Header";
 import styles from "./styles";
@@ -7,9 +7,7 @@ import { styles as headerStyles } from "../Header/styles";
 import FontAwesome from "react-native-vector-icons/Ionicons";
 import { ScrollView } from "../ScrollContext";
 import { Linking } from "expo";
-import ProgressiveImage from "../components/ProgressiveImage";
-
-const { height, width } = Dimensions.get("window");
+import ProgressiveImage from "../../components/ProgressiveImage";
 
 class Document extends React.Component {
   static navigationOptions = {

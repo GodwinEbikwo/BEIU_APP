@@ -6,7 +6,7 @@ import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
 import TabBarNavigator from "./navigator/TabBarNavigator";
-import { ScrollContextProvider } from "./ScrollContext";
+import { ScrollContextProvider } from "./src/ScrollContext";
 
 import { Asset } from "expo-asset";
 import { AppLoading } from "expo";
@@ -43,7 +43,10 @@ export default class App extends React.Component {
   }
 
   async _loadAssetsAsync() {
-    const imageAssets = cacheImages([]);
+    const imageAssets = cacheImages([
+      require("./assets/images/unlock-monochrome-1200px.png"),
+      require("./assets/images/surr-searching-1.png")
+    ]);
 
     const fontAssets = Font.loadAsync({
       "mont-bold": require("./assets/fonts/Montserrat-Bold.ttf"),
@@ -70,11 +73,11 @@ export default class App extends React.Component {
       );
     }
     return (
-      <ApolloProvider client={client}>
-        <ScrollContextProvider>
+      <ScrollContextProvider>
+        <ApolloProvider client={client}>
           <TabBarNavigator />
-        </ScrollContextProvider>
-      </ApolloProvider>
+        </ApolloProvider>
+      </ScrollContextProvider>
     );
   }
 }

@@ -12,8 +12,6 @@ import {
   Keyboard,
   Dimensions
 } from "react-native";
-import { Formik } from "formik";
-import * as yup from "yup";
 import * as WebBrowser from "expo-web-browser";
 import { Ionicons } from "@expo/vector-icons";
 

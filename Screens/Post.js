@@ -23,10 +23,7 @@ class Post extends React.Component {
     const screenPost = navigation.getParam("screenPost");
     return (
       <View style={styles.container}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{ backgroundColor: "#1C1C1E" }}
-        >
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.cover}>
             <ProgressiveImage
               thumbnailSource={{
@@ -80,7 +77,7 @@ const normalText = "pt-serif";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1C1C1E"
+    backgroundColor: "#111112"
   },
   cover: {
     height: 525,

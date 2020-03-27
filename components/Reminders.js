@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import ProgressiveImage from "../components/ProgressiveImage";
+import ProgressiveImage from "./ProgressiveImage";
 
 import styled from "styled-components";
 

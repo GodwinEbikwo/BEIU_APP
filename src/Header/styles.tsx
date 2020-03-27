@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     display: "flex",
     width: "100%",
     marginTop: Platform.OS === "ios" ? null : 40,
-    height: 34,
+    height: 32,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",

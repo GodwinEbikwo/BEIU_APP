@@ -3,22 +3,22 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { Platform } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
-import Main from "../Screens/Main";
-import Post from "../Screens/Post";
+import Main from "../screens/Main";
+import Post from "../screens/Post";
 import { Ionicons } from "@expo/vector-icons";
-import Society from "../Screens/Society";
-import societyScreen from "../Screens/societyScreen";
-import StaffScreen from "../Screens/StaffScreen";
+import Society from "../screens/Society";
+import societyScreen from "../screens/societyScreen";
+import StaffScreen from "../screens/StaffScreen";
 import { Icon } from "react-native-elements";
-import Staff from "../Screens/Staff";
-import LoginScreen from "../Screens/LoginScreen";
-import SignupScreen from "../Screens/SignupScreen";
-import LoadingScreen from "../Screens/LoadingScreen";
-import IndexScreen from "../Screens/IndexScreen";
-import SettingsScreen from "../Screens/SettingsScreen";
-import TestScreen from "../Screens/TestScreen";
-import VideoScreen from "../Screens/VideoScreen";
-import Document from "../Document";
+import Staff from "../screens/Staff";
+import LoginScreen from "../screens/LoginScreen";
+import SignupScreen from "../screens/SignupScreen";
+import LoadingScreen from "../screens/LoadingScreen";
+import IndexScreen from "../screens/IndexScreen";
+import Bookmark from "../screens/Bookmark";
+import Settings from "../screens/Settings";
+import Document from "../src/Document";
+import ForgotPassword from "../screens/ForgotPassword";
 
 const activeColor = "#1db954";
 const inactiveColor = "#777E8B";
@@ -30,23 +30,13 @@ const HomeStack = createStackNavigator(
   {
     MainScreen: Main,
     mainPostScreen: Post,
-    TestScreen,
-    Video: VideoScreen,
-    DocumentScreen: Document
+    DocumentScreen: Document,
+    Settings
   },
   {
     initialRouteName: "MainScreen",
     defaultNavigationOptions: {
-      title: "Home",
-      headerStyle: {
-        backgroundColor: "#1C1C1E",
-        borderBottomColor: "#1C1C1E"
-      },
-      headerTintColor: "#fff",
-      headerTitleStyle: {
-        fontWeight: "bold",
-        fontFamily: "mont-bold"
-      }
+      header: null
     }
   }
 );
@@ -58,7 +48,8 @@ HomeStack.navigationOptions = ({ navigation }) => {
   if (
     routeName == "mainPostScreen" ||
     routeName == "TestScreen" ||
-    routeName == "DocumentScreen"
+    routeName == "DocumentScreen" ||
+    routeName == "Settings"
   ) {
     tabBarVisible = false;
   }
@@ -173,20 +164,18 @@ InformationStack.navigationOptions = ({ navigation }) => {
   };
 };
 
-const SettingsScreenStack = createStackNavigator(
+const BookmarkStack = createStackNavigator(
   {
-    Document,
-    SettingsScreen
+    Bookmark
   },
   {
-    initialRouteName: "SettingsScreen",
     defaultNavigationOptions: {
       header: null
     }
   }
 );
 
-SettingsScreenStack.navigationOptions = ({ navigation }) => {
+BookmarkStack.navigationOptions = ({ navigation }) => {
   var tabBarVisible = true;
 
   const routeName = navigation.state.routes[navigation.state.index].routeName;
@@ -197,11 +186,11 @@ SettingsScreenStack.navigationOptions = ({ navigation }) => {
 
   return {
     tabBarVisible,
-    tabBarLabel: "Settings",
+    tabBarLabel: "Bookmarks",
     tabBarIcon: ({ focused }) => (
       <Icon
-        name="sliders"
-        type="font-awesome"
+        name="bookmark"
+        type="feather"
         color={focused ? activeColor : inactiveColor}
         size={24}
         style={{ backgroundColor: "transparent" }}
@@ -228,13 +217,14 @@ const TabBarNavigator = createBottomTabNavigator({
   HomeStack,
   ExploreStack,
   InformationStack,
-  SettingsScreenStack
+  BookmarkStack
 });
 
 const AuthStack = createStackNavigator({
   Index: IndexScreen,
   Login: LoginScreen,
-  SignUp: SignupScreen
+  SignUp: SignupScreen,
+  forgotPassword: ForgotPassword
 });
 
 export default createAppContainer(

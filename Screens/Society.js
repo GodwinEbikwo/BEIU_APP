@@ -17,9 +17,9 @@ import SearchBar from "../components/SearchBar";
 const { height, width } = Dimensions.get("window");
 import LottieView from "lottie-react-native";
 import { sostsQuery, allSocietysQuery } from "../components/Query";
-import Header from "../Header";
+import Header from "../src/Header";
 
-import { ScrollView } from "../ScrollContext";
+import { ScrollView } from "../src/ScrollContext";
 
 const animation = require("../assets/animation/error.json");
 
@@ -87,41 +87,6 @@ class Society extends React.Component {
                     </View>
                   </TouchableOpacity>
 
-                  {data.societies.map(society => (
-                    <TouchableOpacity
-                      key={society.slug}
-                      onPress={() => {
-                        this.props.navigation.push("societyScreen", {
-                          screenSociety: society
-                        });
-                      }}
-                    >
-                      <SocietiesComponent
-                        subtext={society.title}
-                        code={society.color.hex}
-                        shadow={society.color.hex}
-                        image={{
-                          uri: `https://media.graphcms.com/${society.imageOne.handle}`
-                        }}
-                      />
-                    </TouchableOpacity>
-                  ))}
-
-                  <View style={{ marginBottom: 6 }}>
-                    <Text style={styles.caption}>Browse All</Text>
-                  </View>
-                </View>
-              );
-            }}
-          </Query>
-          <Query query={allSocietysQuery} pollInterval={500}>
-            {({ loading, error, data }) => {
-              if (loading)
-                return <ActivityIndicator size="small" color="#fff" />;
-              if (error) return <Message></Message>;
-
-              return (
-                <View style={styles.allSocietyView}>
                   {data.allSocieties.map(allSociety => (
                     <TouchableOpacity
                       key={allSociety.slug}
@@ -132,11 +97,46 @@ class Society extends React.Component {
                       }}
                     >
                       <SocietiesComponent
-                        subtext={allSociety.title}
+                        title={allSociety.title}
                         code={allSociety.color.hex}
                         shadow={allSociety.color.hex}
                         image={{
                           uri: `https://media.graphcms.com/${allSociety.imageOne.handle}`
+                        }}
+                      />
+                    </TouchableOpacity>
+                  ))}
+                  <View style={{ marginBottom: 6 }}>
+                    <Text style={styles.caption}>Browse All</Text>
+                  </View>
+                </View>
+              );
+            }}
+          </Query>
+
+          <Query query={allSocietysQuery} pollInterval={500}>
+            {({ loading, error, data }) => {
+              if (loading)
+                return <ActivityIndicator size="small" color="#fff" />;
+              if (error) return <Message></Message>;
+
+              return (
+                <View style={styles.allSocietyView}>
+                  {data.societies.map(society => (
+                    <TouchableOpacity
+                      key={society.slug}
+                      onPress={() => {
+                        this.props.navigation.push("societyScreen", {
+                          screenSociety: society
+                        });
+                      }}
+                    >
+                      <SocietiesComponent
+                        title={society.title}
+                        code={society.color.hex}
+                        shadow={society.color.hex}
+                        image={{
+                          uri: `https://media.graphcms.com/${society.imageOne.handle}`
                         }}
                       />
                     </TouchableOpacity>
@@ -163,8 +163,8 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   },
   caption: {
-    color: "#393e46",
-    fontSize: 16,
+    color: "#AEAEB2",
+    fontSize: 15,
     fontFamily: "mont-bold"
   },
   largeCardText: {

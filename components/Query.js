@@ -65,43 +65,42 @@ export const postTwoQuery = gql`
 `;
 
 export const sostsQuery = gql`
-  query societys {
-    societies {
+  query allSociety {
+    allSocieties {
       id
       slug
       title
       name
-      content {
-        html
-      }
       color {
         hex
       }
       imageOne {
         id
         handle
+      }
+      content {
+        html
       }
     }
   }
 `;
 
 export const allSocietysQuery = gql`
-  query allSocietys {
-    allSocieties {
+  query society {
+    societies {
       id
+      slug
+      title
+      name
       color {
         hex
       }
-      content {
-        raw
-        html
-      }
-      title
-      slug
-      name
       imageOne {
         id
         handle
+      }
+      content {
+        html
       }
     }
   }

@@ -3,6 +3,7 @@ import { View, Text, Animated, Easing } from "react-native";
 import { useScroller } from "../ScrollContext";
 import { styles } from "./styles";
 import { HeaderProps } from "./types";
+import { BlurView } from "expo-blur";
 
 export const Header = (props: HeaderProps) => {
   const { titleShowing, opacity } = useScroller();
@@ -13,7 +14,7 @@ export const Header = (props: HeaderProps) => {
     titleShowing === false &&
       Animated.timing(titleFade, {
         toValue: 0,
-        duration: 200,
+        duration: 225,
         useNativeDriver: true,
         easing: Easing.sin
       }).start();
@@ -21,7 +22,7 @@ export const Header = (props: HeaderProps) => {
     titleShowing === true &&
       Animated.timing(titleFade, {
         toValue: 1,
-        duration: 200,
+        duration: 225,
         useNativeDriver: true,
         easing: Easing.sin
       }).start();

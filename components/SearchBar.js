@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  TextInput,
-  Platform,
-  StatusBar
-} from "react-native";
+import { View, StyleSheet, TextInput, Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 class SearchBar extends Component {

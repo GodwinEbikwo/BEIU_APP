@@ -5,11 +5,7 @@ import {
   View,
   ActivityIndicator,
   TouchableOpacity,
-  ScrollView,
-  SafeAreaView,
-  StatusBar,
-  Button,
-  Dimensions
+  SafeAreaView
 } from "react-native";
 import { Query } from "react-apollo";
 import NewCard from "../components/Card/NewCard";
@@ -18,13 +14,14 @@ import styled from "styled-components";
 import Moment from "../components/Moment";
 import Categories from "../components/Categories";
 import Reminders from "../components/Reminders";
+import NotificationButton from "../components/NotificationButton";
 import LottieView from "lottie-react-native";
 import firebase from "../components/Firebase";
 import { postQuery, postTwoQuery, reminderQuery } from "../components/Query";
-import { BlurView } from "expo";
+import { ScrollView } from "../src/ScrollContext";
+import Header from "../src/Header";
 
 const animation = require("../assets/animation/error.json");
-const { height, width } = Dimensions.get("window");
 
 class Main extends React.Component {
   static navigationOptions = {
@@ -47,13 +44,16 @@ class Main extends React.Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar hidden={false} />
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          scrollEventThrottle={16}
-        >
+        <Header title={`Welcome ${this.state.displayName}`} />
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.titleBar}>
             <Moment />
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate("Settings")}
+              style={{ position: "absolute", right: 20, top: 5 }}
+            >
+              <NotificationButton />
+            </TouchableOpacity>
           </View>
 
           <View style={styles.newsView}>
@@ -92,7 +92,6 @@ class Main extends React.Component {
                       </Text>
                       {data.reminders.map(reminder => (
                         <TouchableOpacity
-                          activeOpacity={1}
                           key={reminder.slug}
                           onPress={() => {
                             this.props.navigation.push("DocumentScreen", {
@@ -136,7 +135,6 @@ class Main extends React.Component {
                   </View>
                   {data.posts.map(post => (
                     <TouchableOpacity
-                      activeOpacity={1}
                       key={post.slug}
                       onPress={() => {
                         this.props.navigation.push("mainPostScreen", {
@@ -173,7 +171,6 @@ class Main extends React.Component {
                 <View>
                   {data.sosts.map(sost => (
                     <TouchableOpacity
-                      activeOpacity={1}
                       key={sost.slug}
                       onPress={() => {
                         this.props.navigation.push("mainPostScreen", {
@@ -220,12 +217,7 @@ const styles = StyleSheet.create({
     backgroundColor: bColour
   },
   titleBar: {
-    width: "100%",
-    paddingLeft: 5,
-    paddingBottom: 5,
-    marginTop: 10
-    // borderBottomWidth: 0.3,
-    // borderBottomColor: "#1c1c1e"
+    marginTop: -5
   },
   subCaption: {
     fontSize: 15,
@@ -248,6 +240,10 @@ const styles = StyleSheet.create({
     top: 10,
     bottom: 5,
     backgroundColor: "#0a0a0a"
+  },
+  scrollContainer: {
+    marginTop: -5,
+    marginBottom: 50
   }
 });
 

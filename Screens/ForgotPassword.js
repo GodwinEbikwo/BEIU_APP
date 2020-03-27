@@ -10,11 +10,12 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Dimensions,
-  Alert
+  Alert,
+  Image
 } from "react-native";
 
-import { Ionicons } from "@expo/vector-icons";
 import Button from "../components/Button";
+import Loading from "../assets/animation/Loading.json";
 import firebase from "../components/Firebase";
 const screen = Dimensions.get("window");
 
@@ -25,7 +26,6 @@ class LoginScreen extends React.Component {
 
   state = {
     email: "",
-    password: "",
     errorMessage: null,
     isLoading: false,
     isSuccessful: false
@@ -63,31 +63,26 @@ class LoginScreen extends React.Component {
           <SafeAreaView style={{ marginTop: 18, backgroundColor: "#111112" }}>
             <View
               style={{
-                marginHorizontal: 20,
-                marginTop: 40,
-                marginBottom: 10
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 40
               }}
             >
-              <View style={{ marginBottom: 30 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    this.props.navigation.goBack();
-                  }}
-                >
-                  <Ionicons
-                    name="md-arrow-back"
-                    color="#fff"
-                    size={Platform.OS === "ios" ? 28 : 27}
-                  />
-                </TouchableOpacity>
-              </View>
-
-              <Text style={styles.title}>Log in to your account</Text>
+              <Image
+                source={require("../assets/images/surr-searching-1.png")}
+                style={{ width: 220, height: 220 }}
+              />
+            </View>
+            <View style={styles.forgotText}>
+              <Text style={styles.title}>Forgot your password?</Text>
+              <Text style={styles.subTitle}>
+                Enter your registered email below to recieve password reset
+                instructions
+              </Text>
             </View>
 
             <View style={{ marginTop: 20 }}>
               <View style={styles.labelView}>
-                <Text style={styles.labelText}>Email</Text>
                 <TextInput
                   placeholder="johndoe@example.com"
                   style={styles.textInput}
@@ -98,56 +93,26 @@ class LoginScreen extends React.Component {
                   keyboardAppearance={"dark"}
                 />
               </View>
-
-              <View style={styles.labelView}>
-                <Text style={styles.labelText}>Password</Text>
-                <TextInput
-                  placeholder="password"
-                  style={styles.textInput}
-                  onChangeText={password => this.setState({ password })}
-                  value={this.state.password}
-                  secureTextEntry
-                  placeholderTextColor={"grey"}
-                  keyboardAppearance={"dark"}
-                  enablesReturnKeyAutomatically={true}
-                />
-              </View>
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("forgotPassword")}
-              >
-                <View style={{ marginHorizontal: 24, marginVertical: 5 }}>
-                  <Text style={styles.forgotPasswordText}>
-                    Forgot Password ?
-                  </Text>
-                </View>
-              </TouchableOpacity>
             </View>
 
             <View
               style={{
-                marginTop: screen.height / 4,
-                marginHorizontal: 25
+                marginHorizontal: 25,
+                marginTop: 10
               }}
             >
-              <Button
-                title="LOGIN"
-                onPress={this.handleLogin}
-                color="#1db954"
-              />
-
-              <TouchableOpacity
-                onPress={() => this.props.navigation.navigate("SignUp")}
-              >
-                <View style={styles.footer}>
-                  <Text
-                    style={{ color: "grey", fontSize: 15, fontWeight: "500" }}
-                  >
-                    Don't have an account?{" "}
-                    <Text style={styles.footerText}>Sign Up</Text>
-                  </Text>
-                </View>
-              </TouchableOpacity>
+              <Button title="SEND" onPress={this.handleLogin} color="#1db954" />
             </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+            >
+              <View style={styles.footerView}>
+                <Text style={styles.footerText}>Back to login</Text>
+              </View>
+            </TouchableOpacity>
           </SafeAreaView>
         </KeyboardAvoidingView>
       </DismissKeyboard>
@@ -163,17 +128,30 @@ const DismissKeyboard = ({ children }) => (
 );
 
 const bold = "mont-bold";
-const regular = "pt-serif";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1
   },
   title: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: "700",
     color: "#fff",
     fontFamily: bold
+  },
+  subTitle: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "grey",
+    top: 15,
+    textAlign: "center"
+  },
+  forgotText: {
+    marginHorizontal: 20,
+    marginTop: 10,
+    marginBottom: 10,
+    justifyContent: "center",
+    alignItems: "center"
   },
   textInput: {
     padding: 18,
@@ -191,22 +169,15 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: bold
   },
-  footer: {
-    marginTop: 15,
-    alignItems: "center",
-    justifyContent: "center"
+  footerView: {
+    marginTop: screen.height / 5,
+    justifyContent: "center",
+    alignItems: "center"
   },
   footerText: {
-    fontSize: 15,
-    fontWeight: "500",
-    color: "#33FF7A",
-    fontFamily: regular
-  },
-  forgotPasswordText: {
-    marginTop: 10,
-    color: "#1db954",
-    fontWeight: "400",
-    fontFamily: "mont-bold",
+    color: "white",
+    fontWeight: "600",
+    fontFamily: bold,
     fontSize: 15
   }
 });

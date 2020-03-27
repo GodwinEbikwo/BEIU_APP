@@ -6,9 +6,11 @@ import {
   View,
   Button
 } from "react-native";
-import { Text } from "../Text";
-import Header from "../Header";
-import { ScrollView } from "../ScrollContext";
+import { Text } from "../src/Text";
+import Header from "../src/Header";
+import { styles as headerStyles } from "../src/Header/styles";
+import { ScrollView } from "../src/ScrollContext";
+import FontAwesome from "react-native-vector-icons/Ionicons";
 import { ListItem, Icon } from "react-native-elements";
 import firebase from "../components/Firebase";
 
@@ -31,7 +33,7 @@ const list = [
   }
 ];
 
-class SettingsScreen extends React.Component {
+class Settings extends React.Component {
   signOutUser = () => {
     firebase.auth().signOut();
   };
@@ -39,13 +41,25 @@ class SettingsScreen extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: "#111112" }}>
-        <Header title="Settings" />
-        <Button title="signOut" onPress={this.signOutUser} />
+        <Header
+          title="Settings"
+          headerLeft={
+            <Text
+              style={headerStyles.headerText}
+              onPress={() => this.props.navigation.goBack()}
+              primaryColor
+              heading
+            >
+              <FontAwesome name="md-arrow-back" size={15} /> Back
+            </Text>
+          }
+        />
 
         <ScrollView contentContainerStyle={styles.container}>
           <View
             style={{
-              marginHorizontal: 15
+              marginHorizontal: 15,
+              marginTop: 5
             }}
           >
             <Text style={styles.title}>Settings</Text>
@@ -78,13 +92,14 @@ class SettingsScreen extends React.Component {
               </TouchableOpacity>
             ))}
           </View>
+          <Button title="signOut" onPress={this.signOutUser} />
         </ScrollView>
       </SafeAreaView>
     );
   }
 }
 
-export default SettingsScreen;
+export default Settings;
 
 const styles = StyleSheet.create({
   container: {

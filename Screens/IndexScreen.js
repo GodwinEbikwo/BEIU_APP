@@ -5,11 +5,15 @@ import {
   View,
   SafeAreaView,
   Dimensions,
-  Image
+  TouchableOpacity
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import Button from "../components/Button";
+import * as WebBrowser from "expo-web-browser";
 const screen = Dimensions.get("window");
+
+function handleHelpPress2() {
+  WebBrowser.openBrowserAsync("https://beiu.co.uk/");
+}
 
 const textColor = ["#8cc63e", "#00adef", "#fdb016", "rgb(237, 0, 140)"];
 
@@ -72,6 +76,25 @@ class IndexScreen extends React.Component {
             color="transparent"
           />
         </View>
+        <TouchableOpacity onPress={handleHelpPress2}>
+          <View
+            style={{
+              marginTop: 15,
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Text
+              style={{
+                color: "#1db954",
+                fontSize: 15,
+                fontWeight: "500"
+              }}
+            >
+              What is BEIU?
+            </Text>
+          </View>
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
@@ -80,7 +103,6 @@ class IndexScreen extends React.Component {
 export default IndexScreen;
 
 const bold = "mont-bold";
-const regular = "pt-serif";
 
 const styles = StyleSheet.create({
   container: {

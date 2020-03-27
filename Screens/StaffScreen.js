@@ -4,9 +4,7 @@ import {
   StyleSheet,
   View,
   SafeAreaView,
-  ScrollView,
   FlatList,
-  ActivityIndicator,
   Platform,
   TextInput,
   TouchableOpacity,
@@ -92,6 +90,13 @@ class StaffScreen extends React.Component {
           marginTop: Platform.OS === "ios" ? null : 30
         }}
       >
+        <View style={{ marginHorizontal: 10, marginTop: 20 }}>
+          <Text
+            style={{ fontSize: 20, fontFamily: "mont-bold", color: "#fff" }}
+          >
+            What can we help you find?
+          </Text>
+        </View>
         <View style={styles.searchBar}>
           <Ionicons
             name="ios-search"
@@ -173,7 +178,7 @@ const subtitleText = "pt-serif";
 const styles = StyleSheet.create({
   title: {
     fontFamily: titleText,
-    color: "#fff",
+    color: "#AEAEB2",
     fontSize: 15
   },
   textSubtitle: {
@@ -186,7 +191,7 @@ const styles = StyleSheet.create({
     padding: 12,
     backgroundColor: "#2C2C2E",
     marginHorizontal: 5,
-    borderRadius: 7,
+    borderRadius: 3,
     marginTop: Platform.OS == "android" ? 8 : 8,
     marginBottom: 5
   }

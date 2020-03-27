@@ -11,10 +11,10 @@ import {
 } from "react-native";
 import ProgressiveImage from "../components/ProgressiveImage";
 import { Icon } from "react-native-elements";
-import Header from "../Header";
-import { Text } from "../Text";
+import Header from "../src/Header";
+import { Text } from "../src/Text";
 import { Linking } from "expo";
-import { ScrollView } from "../ScrollContext";
+import { ScrollView } from "../src/ScrollContext";
 import { BlurView } from "expo-blur";
 const screen = Dimensions.get("window");
 

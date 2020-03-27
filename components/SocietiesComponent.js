@@ -19,7 +19,8 @@ const SocietiesComponent = props => {
         style={[styles.content, { backgroundColor: props.code || "#17223B" }]}
       >
         <Image source={props.image} style={styles.image} />
-        <Text style={styles.text1}>{props.subtext}</Text>
+        <Text style={styles.text1}>{props.title}</Text>
+        <Text style={styles.text1}>{props.name}</Text>
       </View>
     </View>
   );
