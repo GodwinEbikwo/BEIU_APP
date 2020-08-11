@@ -22,7 +22,7 @@ export const Text = (props: TextProps | any) => {
       {...props}
       style={{
         ...style,
-        color: color
+        color: color,
       }}
     />
   );

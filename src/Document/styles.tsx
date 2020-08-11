@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions, Platform } from "react-native";
 const { height, width } = Dimensions.get("window");
 
-const bold = "mont-bold";
+const bold = "DM-Bold";
 
 const styles = StyleSheet.create({
   container: {
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: Platform.OS === "ios" ? null : 16,
     marginBottom: 50,
-    backgroundColor: "#111112"
+    backgroundColor: "#111112",
   },
   title: {
     paddingTop: 0,
@@ -22,27 +22,27 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#E5E5EA",
-    fontFamily: Platform.OS === "ios" ? bold : null
+    fontFamily: Platform.OS === "ios" ? bold : null,
   },
   authorInfo: {
     marginLeft: 5,
     color: "grey",
     fontSize: 13,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   subtitle: {
-    color: "#1db954"
+    color: "#33FF7A",
   },
   paragraph: {
     marginVertical: 10,
     fontSize: 15,
-    fontWeight: "500",
-    lineHeight: 21,
-    color: "#AEAEB2"
+    fontFamily: "DM-Medium",
+    lineHeight: 24,
+    color: "#AEAEB2",
   },
   image: {
     width: "100%",
-    height: height / 4.5
+    height: height / 4.5,
   },
   avatarImage: { width: 25, height: 25, borderRadius: width / 2 },
   duration: { color: "grey" },
@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     paddingTop: 5,
     width: "100%",
-    marginBottom: 10
+    marginBottom: 10,
   },
-  imageSource: { color: "#C7C7CC", textDecorationLine: "underline" }
+  imageSource: { color: "#C7C7CC", textDecorationLine: "underline" },
 });
 
 export default styles;

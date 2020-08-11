@@ -4,8 +4,8 @@ export const styles = StyleSheet.create({
   header: {
     display: "flex",
     width: "100%",
-    marginTop: Platform.OS === "ios" ? null : 40,
-    height: 32,
+    marginTop: Platform.OS === "ios" ? 0 : 40,
+    height: 52,
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "center",
@@ -13,12 +13,12 @@ export const styles = StyleSheet.create({
     alignContent: "center",
     backgroundColor: "#111112",
     shadowRadius: 0,
-    shadowColor: "#1c1c1e",
+    shadowColor: "#2c2c2e",
     shadowOffset: {
       width: 0,
-      height: 1
+      height: 1,
     },
-    zIndex: 9
+    zIndex: 9,
   },
   headerTitle: {
     display: "flex",
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    alignContent: "center"
+    alignContent: "center",
   },
   headerLeft: {
     flexBasis: "33%",
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
-    alignContent: "center"
+    alignContent: "center",
   },
   headerRight: {
     flexBasis: "33%",
@@ -42,13 +42,13 @@ export const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    alignContent: "center"
+    alignContent: "center",
   },
   title: {
     fontSize: 17,
     fontWeight: "600",
     textAlign: "center",
-    color: "#fff"
+    color: "#fff",
   },
   headerText: {
     textAlign: "center",
@@ -59,8 +59,8 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     fontSize: 17,
-    fontWeight: "600"
-  }
+    fontWeight: "600",
+  },
 });
 
 export default styles;
